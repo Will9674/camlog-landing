@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CamLog — The Camera Log App Your Whole Team Can Afford</title>
+  <meta name="description" content="Free camera notes for film productions. No subscriptions, no per-user pricing. CamLog Pro adds multi-user sync for $8 one-time per project — everyone else joins free.">
+  <meta property="og:title" content="CamLog — The Camera Log App Your Whole Team Can Afford">
+  <meta property="og:description" content="Free camera notes for film productions. No subscriptions, no per-user pricing. CamLog Pro adds multi-user sync for $8 one-time per project.">
+  <meta property="og:url" content="https://camlog.app">
+  <meta name="theme-color" content="#111111">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23111'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-weight='800' font-size='18' fill='%23e63946'>CL</text></svg>">
+
+  <style>
+    /* ── Tokens ─────────────────────────────────────────── */
+    :root {
+      --bg:        #111111;
+      --surface:   #1c1c1e;
+      --surface2:  #2a2a2c;
+      --surface3:  #313135;
+      --border:    rgba(255,255,255,0.08);
+      --text:      #f2f2f7;
+      --text2:     #8e8e93;
+      --text3:     #48484a;
+      --accent:    #e63946;
+      --accent-dim:rgba(230,57,70,0.14);
+      --gold:      #ffc300;
+      --gold-dim:  rgba(255,195,0,0.13);
+      --green:     #30d158;
+      --green-dim: rgba(48,209,88,0.13);
+      --radius:    14px;
+      --radius-sm: 10px;
+      --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 24px;
+      background: rgba(17,17,17,0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-wordmark {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+      flex: 1;
+    }
+    .nav-wordmark em { font-style: normal; color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 7px 11px;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--text); background: var(--surface2); }
+
+    @media (max-width: 500px) {
+      .nav-link { display: none; }
+    }
+
+    /* ── Shared layout ──────────────────────────────────── */
+    .section-wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-wrap.tight { padding: 64px 24px; }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4.5vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-body {
+      font-size: 17px;
+      color: var(--text2);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+    .section-body p + p { margin-top: 14px; }
+
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 96px 24px 80px;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Film strip decoration */
+    .hero-film {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 36px;
+      opacity: 0.18;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-wordmark {
+      font-size: clamp(56px, 12vw, 96px);
+      font-weight: 800;
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .hero-wordmark em { font-style: normal; color: var(--accent); }
+
+    .hero-tag {
+      font-size: clamp(17px, 2.5vw, 20px);
+      color: var(--text2);
+      line-height: 1.55;
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.12s;
+    }
+    .btn-primary:hover { opacity: 0.86; transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: background 0.15s, transform 0.12s;
+    }
+    .btn-ghost:hover { background: var(--surface2); transform: translateY(-1px); }
+
+    /* ── Features grid ──────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      margin-top: 40px;
+    }
+
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+    }
+
+    .feat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+    .feat-icon svg { width: 18px; height: 18px; }
+
+    .feat-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feat-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* ── About / mission ────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    @media (max-width: 620px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    .about-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .stat-block {
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+
+    /* ── Pro section ────────────────────────────────────── */
+    .pro-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 560px) { .pro-card { padding: 32px 24px; } }
+
+
+    .pro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-dim);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      padding: 5px 11px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .pro-badge svg { width: 11px; height: 11px; }
+
+    .pro-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 560px) { .pro-layout { grid-template-columns: 1fr; gap: 28px; } }
+
+    .pro-price-block {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    @media (max-width: 560px) { .pro-price-block { text-align: left; } }
+
+    .pro-price {
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .pro-price sup {
+      font-size: 24px;
+      vertical-align: super;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .pro-price-label {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 6px;
+      line-height: 1.15;
+    }
+
+    .pro-perks {
+      list-style: none;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .pro-perks li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--text2);
+    }
+
+    .perk-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green-dim);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .perk-check svg { width: 10px; height: 10px; }
+
+    .pro-perks li strong { color: var(--text); font-weight: 600; }
+
+    .pro-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    @media (max-width: 440px) { .pro-compare { grid-template-columns: 1fr; } }
+
+    .compare-card {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      border: 1px solid transparent;
+    }
+    .compare-card.ours { border-color: rgba(230,57,70,0.25); }
+
+    .compare-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .compare-card.ours .compare-label { color: var(--accent); }
+
+    .compare-price {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .compare-price span { font-size: 14px; font-weight: 400; color: var(--text2); }
+
+    .compare-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.45;
+    }
+
+    /* ── Wrapped section ────────────────────────────────── */
+    .wrapped-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (max-width: 560px) { .wrapped-layout { grid-template-columns: 1fr; } }
+
+    .wrapped-visual {
+      width: 200px;
+      height: 140px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    @media (max-width: 560px) { .wrapped-visual { display: none; } }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .footer-brand em { font-style: normal; color: var(--accent); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-link {
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--text); }
+
+    .footer-copy {
+      width: 100%;
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    /* ── Closing CTA ────────────────────────────────────── */
+    .closing-cta {
+      text-align: center;
+      padding: 80px 24px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .closing-cta h2 {
+      font-size: clamp(26px, 4.5vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .closing-cta p {
+      font-size: 17px;
+      color: var(--text2);
+      margin-bottom: 28px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Nav ──────────────────────────────────────────────── -->
+  <nav>
+    <a href="/" class="nav-wordmark">Cam<em>Log</em></a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pro"      class="nav-link">Pro</a>
+      <a href="#wrapped"  class="nav-link">Wrapped</a>
+    </div>
+  </nav>
+
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <div class="hero">
+
+    <!-- Film strip icon, same one from the app's empty state -->
+    <div class="hero-film" aria-hidden="true">
+      <svg width="160" height="78" viewBox="0 0 108 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <mask id="hs-top">
+            <rect width="108" height="13" fill="white"/>
+            <rect x="6"  y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="19" y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="32" y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="45" y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="58" y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="71" y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="84" y="3" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="97" y="3" width="7" height="7" rx="1.5" fill="black"/>
+          </mask>
+          <mask id="hs-bot">
+            <rect y="39" width="108" height="13" fill="white"/>
+            <rect x="6"  y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="19" y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="32" y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="45" y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="58" y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="71" y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="84" y="42" width="7" height="7" rx="1.5" fill="black"/>
+            <rect x="97" y="42" width="7" height="7" rx="1.5" fill="black"/>
+          </mask>
+        </defs>
+        <rect width="108" height="13" fill="white" mask="url(#hs-top)"/>
+        <rect y="39" width="108" height="13" fill="white" mask="url(#hs-bot)"/>
+        <rect x="0.5" y="0.5" width="107" height="51" rx="2.5" stroke="white" stroke-width="1.5"/>
+        <line x1="0" y1="13" x2="108" y2="13" stroke="white" stroke-width="1"/>
+        <line x1="0" y1="39" x2="108" y2="39" stroke="white" stroke-width="1"/>
+        <line x1="36" y1="13" x2="36" y2="39" stroke="white" stroke-width="1.5"/>
+        <line x1="72" y1="13" x2="72" y2="39" stroke="white" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <h1 class="hero-wordmark">Cam<em>Log</em></h1>
+    <p class="hero-tag">The camera log app your whole team can afford.</p>
+
+    <div class="hero-ctas">
+      <a href="https://camlog-one.vercel.app" class="btn-primary" target="_blank" rel="noopener">
+        Open CamLog
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+      <a href="https://camlog-wrapped.vercel.app" class="btn-ghost" target="_blank" rel="noopener">
+        CamLog Wrapped
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+
+  <!-- ── Features ─────────────────────────────────────────── -->
+  <hr class="divider">
+  <div class="section-wrap" id="features">
+    <div class="eyebrow">Features</div>
+    <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+
+    <div class="features-grid">
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="feat-title">Any device</div>
+        <div class="feat-desc">Runs in any browser on iPhone, Android, iPad, laptop. Install it to your home screen — no App Store needed.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="feat-title">Offline-first</div>
+        <div class="feat-desc">Log notes on set while offline. Everything saves locally and syncs automatically when you're back online.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
+        <div class="feat-title">Fully customizable</div>
+        <div class="feat-desc">Enable only the fields your production needs: ISO, Film Stock, Filters, Aspect Ratio, etc. Add custom presets for faster entry.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div class="feat-title">Export anywhere</div>
+        <div class="feat-desc">PDF reports, CSV for post, or full JSON backups. Import projects to restore or hand off to another crew member.</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── About / mission ──────────────────────────────────── -->
+  <hr class="divider">
+  <div class="section-wrap">
+    <div class="about-grid">
+
+      <div>
+        <div class="eyebrow">Built Different</div>
+        <h2 class="section-title">Not another subscription app.</h2>
+        <div class="section-body">
+          <p>Film productions are project-based. Your camera log app should be too.</p>
+          <p>CamLog was built by a camera assistant who got tired of paying monthly subscription fees between productions or for a single day commercial.</p>
+          <p>Other camera log apps are priced for one person. They charge a monthly subscription and if your whole department wants access, that's a monthly bill multiplied by every team member that needs it.</p>
+          <p>CamLog has no per-user pricing and no paywalled features for single user projects. It's a web app that opens on any phone or laptop the moment you share the link.</p>
+          <p>When you need the whole team included in real time, that's CamLog Pro and only the project admin pays.</p>
+        </div>
+      </div>
+
+      <div class="about-stat">
+        <div class="stat-block">
+          <div class="stat-number">Free</div>
+          <div class="stat-label">Unlimited single-user projects.</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">Offline</div>
+          <div class="stat-label">Log notes with unstable connection or fully offline. Data automatically syncs when you're back online.</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">Any device</div>
+          <div class="stat-label">iPhone, Android, iPad, laptop. No download required.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── Pro ──────────────────────────────────────────────── -->
+  <hr class="divider">
+  <div class="section-wrap" id="pro">
+    <div class="pro-card">
+
+      <div class="pro-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        CamLog Pro
+      </div>
+
+      <div class="pro-layout">
+        <div>
+          <h2 class="section-title">Multi-user sync.<br>One-time price.</h2>
+          <p class="section-body" style="max-width:460px">The whole team shares the same real-time camera logs. The project admin upgrades once, everyone else on the team joins for free via a QR code or shared link.</p>
+
+          <ul class="pro-perks">
+            <li>
+              <span class="perk-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span>Invite your department via <strong>QR code or invite link</strong></span>
+            </li>
+            <li>
+              <span class="perk-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span><strong>Everyone joins free.</strong> Only the project admin pays</span>
+            </li>
+            <li>
+              <span class="perk-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span>Role-based access: <strong>Admin, Editor, Viewer</strong></span>
+            </li>
+            <li>
+              <span class="perk-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span><strong>No subscription.</strong> Pay once per project</span>
+            </li>
+            <li>
+              <span class="perk-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span><strong>Expense-ready receipt,</strong> itemized with your project name</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="pro-price-block">
+          <div class="pro-price"><sup>$</sup>8</div>
+          <div class="pro-price-label">per project<br>one&#8209;time</div>
+        </div>
+      </div>
+
+      <div class="pro-compare">
+        <div class="compare-card ours">
+          <div class="compare-label">CamLog Pro</div>
+          <div class="compare-price">$8</div>
+          <div style="font-size:12px;color:var(--text2);margin:-4px 0 8px;">per project, one time</div>
+          <div class="compare-desc">Admin pays once. 3 × 2nd ACs, Loader, Script Supervisor join free.</div>
+        </div>
+        <div class="compare-card">
+          <div class="compare-label">Other Log Apps</div>
+          <div class="compare-price">$29.94 <span>/ mo</span></div>
+          <div class="compare-desc">Same 6 crew members × $4.99/mo each.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── CamLog Wrapped ────────────────────────────────────── -->
+  <hr class="divider">
+  <div class="section-wrap" id="wrapped">
+    <div class="wrapped-layout">
+
+      <div>
+        <div class="eyebrow">CamLog Wrapped</div>
+        <h2 class="section-title">Visualize your camera data</h2>
+        <div class="section-body">
+          <p>Upload a camera log CSV and instantly see a breakdown of your shoot: lens usage, camera support type, and more.</p>
+          <p>Filter by camera or date range. Works with exports from CamLog and other compatible camera log apps.</p>
+        </div>
+        <div style="margin-top: 24px;">
+          <a href="https://camlog-wrapped.vercel.app" class="btn-ghost" target="_blank" rel="noopener">
+            Open CamLog Wrapped
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mini chart mockup -->
+      <div class="wrapped-visual" aria-hidden="true">
+        <svg width="140" height="90" viewBox="0 0 140 90" fill="none">
+          <text x="0" y="13" font-family="system-ui" font-size="9" fill="#48484a">40mm</text>
+          <rect x="0" y="17" width="116" height="9" rx="2" fill="#e63946" opacity="0.7"/>
+          <text x="0" y="44" font-family="system-ui" font-size="9" fill="#48484a">55mm</text>
+          <rect x="0" y="48" width="78" height="9" rx="2" fill="#e63946" opacity="0.45"/>
+          <text x="0" y="75" font-family="system-ui" font-size="9" fill="#48484a">24-290mm Zoom</text>
+          <rect x="0" y="79" width="44" height="9" rx="2" fill="#e63946" opacity="0.3"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── Closing CTA ──────────────────────────────────────────── -->
+  <hr class="divider">
+  <div class="closing-cta">
+    <h2>Ready to get started?</h2>
+    <p>Free to use. Create an account to get started.</p>
+    <a href="https://camlog-one.vercel.app" class="btn-primary" target="_blank" rel="noopener">
+      Open CamLog
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
+  <footer>
+    <a href="/" class="footer-brand">Cam<em>Log</em></a>
+    <div class="footer-copy">© 2026 CamLog &mdash; Built by Will, a camera assistant</div>
+  </footer>
+
+</body>
+</html>
