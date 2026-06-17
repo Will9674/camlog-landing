@@ -134,6 +134,7 @@
       max-width: 600px;
     }
     .section-body p + p { margin-top: 14px; }
+    .section-body strong { color: var(--text); font-weight: 600; }
 
     /* ── Hero ───────────────────────────────────────────── */
     .hero {
@@ -227,18 +228,10 @@
     }
 
     .feat-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
-      background: var(--accent-dim);
       color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       margin-bottom: 14px;
-      flex-shrink: 0;
     }
-    .feat-icon svg { width: 18px; height: 18px; }
+    .feat-icon svg { width: 22px; height: 22px; }
 
     .feat-title {
       font-size: 14px;
@@ -303,17 +296,14 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--gold-dim);
       color: var(--gold);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.2px;
-      padding: 5px 11px;
-      border-radius: 20px;
       margin-bottom: 20px;
     }
-    .pro-badge svg { width: 11px; height: 11px; }
+    .pro-badge svg { width: 13px; height: 13px; }
 
     .pro-layout {
       display: grid;
@@ -366,18 +356,11 @@
     }
 
     .perk-check {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--green-dim);
       color: var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      margin-top: 1px;
+      margin-top: 2px;
     }
-    .perk-check svg { width: 10px; height: 10px; }
+    .perk-check svg { width: 14px; height: 14px; }
 
     .pro-perks li strong { color: var(--text); font-weight: 600; }
 
@@ -442,6 +425,26 @@
       flex-shrink: 0;
     }
     @media (max-width: 560px) { .wrapped-visual { display: none; } }
+
+    .btn-wrapped {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #3b82f6 0%, #e63946 50%, #fbbf24 100%);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      border: none;
+      transition: opacity 0.15s, transform 0.12s;
+    }
+    .btn-wrapped:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
 
     /* ── Footer ─────────────────────────────────────────── */
     footer {
@@ -562,15 +565,8 @@
     <p class="hero-tag">The camera log app your whole team can afford.</p>
 
     <div class="hero-ctas">
-      <a href="https://app.camlog.app" class="btn-primary" target="_blank" rel="noopener">
+      <a href="https://app.camlog.app" class="btn-primary" style="padding: 14px 36px; font-size: 16px;" target="_blank" rel="noopener">
         Open CamLog
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-        </svg>
-      </a>
-      <a href="https://wrapped.camlog.app" class="btn-ghost" target="_blank" rel="noopener">
-        CamLog Wrapped
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
           <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
@@ -646,11 +642,11 @@
         <div class="eyebrow">Built Different</div>
         <h2 class="section-title">Not another subscription app.</h2>
         <div class="section-body">
-          <p>Film productions are project-based. Your camera log app should be too.</p>
-          <p>CamLog was built by a camera assistant who got tired of paying monthly subscription fees between productions or for a single day commercial.</p>
-          <p>Other camera log apps are priced for one person. They charge a monthly subscription and if your whole department wants access, that's a monthly bill multiplied by every team member that needs it.</p>
-          <p>CamLog has no per-user pricing and no paywalled features for single-user projects. It's a web app that opens on any phone or laptop the moment you share the link.</p>
-          <p>When you need the whole team included in real time, that's CamLog Pro and only the project admin pays.</p>
+          <p>Film productions are <strong>project-based</strong>. Your camera log app should be too.</p>
+          <p>CamLog was <strong>built by a camera assistant</strong> tired of paying monthly subscription fees for a single-day commercial or on downtime between productions.</p>
+          <p>Other camera log apps are priced for one user on a monthly subscription. If your whole department wants access, that's a monthly bill multiplied by every team member that needs it.</p>
+          <p>CamLog has <strong>no per-user pricing</strong> and no paywalled features for single-user projects. It's a web app that opens on <strong>any phone or laptop the moment you share the link.</strong></p>
+          <p>When you need the whole team included in real time, upgrade to CamLog Pro. <strong>Only the project admin pays.</strong></p>
         </div>
       </div>
 
@@ -759,11 +755,12 @@
           <p>Filter by camera or date range. Works with exports from CamLog and other compatible camera log apps.</p>
         </div>
         <div style="margin-top: 24px;">
-          <a href="https://wrapped.camlog.app" class="btn-ghost" target="_blank" rel="noopener">
-            Open CamLog Wrapped
+          <a href="https://wrapped.camlog.app" class="btn-wrapped" target="_blank" rel="noopener">
+            Explore CamLog Wrapped
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
             </svg>
           </a>
         </div>
