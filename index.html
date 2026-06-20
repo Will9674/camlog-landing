@@ -404,6 +404,14 @@
       line-height: 1.45;
     }
 
+    /* ── Wrapped divider ───────────────────────────────── */
+    .wrapped-divider {
+      height: 8px;
+      max-width: 880px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, #3b82f6 0%, #e63946 50%, #fbbf24 100%);
+    }
+
     /* ── Wrapped section ────────────────────────────────── */
     .wrapped-layout {
       display: grid;
@@ -657,7 +665,7 @@
         </div>
         <div class="stat-block">
           <div class="stat-number">Offline</div>
-          <div class="stat-label">Log notes with unstable connection or fully offline. Data automatically syncs when you're back online.</div>
+          <div class="stat-label">Log notes regardless of connection quality. Data syncs when connection is restored and stable.</div>
         </div>
         <div class="stat-block">
           <div class="stat-number">Any device</div>
@@ -743,7 +751,7 @@
 
 
   <!-- ── CamLog Wrapped ────────────────────────────────────── -->
-  <hr class="divider">
+  <div class="wrapped-divider"></div>
   <div class="section-wrap" id="wrapped">
     <div class="wrapped-layout">
 
