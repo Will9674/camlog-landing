@@ -807,8 +807,122 @@
   <!-- ── Footer ────────────────────────────────────────────── -->
   <footer>
     <a href="/" class="footer-brand">Cam<em>Log</em></a>
+    <div class="footer-links">
+      <button class="footer-link" style="background:none;border:none;cursor:pointer;padding:0;font-size:13px" onclick="_showLandingLegal('privacy')">Privacy Policy</button>
+      <button class="footer-link" style="background:none;border:none;cursor:pointer;padding:0;font-size:13px" onclick="_showLandingLegal('terms')">Terms of Service</button>
+    </div>
     <div class="footer-copy">© 2026 CamLog &mdash; Built by Will, a camera assistant &mdash; <a href="mailto:hello@camlog.app" class="footer-link">hello@camlog.app</a></div>
   </footer>
+
+  <!-- Legal modal -->
+  <div id="landing-legal-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);overflow-y:auto;padding:32px 16px">
+    <div style="max-width:700px;margin:0 auto;background:#1c1c1e;border-radius:16px;padding:32px 28px 48px;position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.7;color:#f5f5f7">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.1)">
+        <span style="font-size:18px;font-weight:700;letter-spacing:-0.3px">Cam<span style="color:#e05a4e">Log</span></span>
+        <button onclick="document.getElementById('landing-legal-overlay').style.display='none'" style="background:none;border:none;color:#888;font-size:24px;line-height:1;cursor:pointer;padding:4px 8px" aria-label="Close">&times;</button>
+      </div>
+      <div id="landing-legal-content"></div>
+    </div>
+  </div>
+
+  <script>
+    const _privacyHtml = () => `<h1>Privacy Policy</h1>
+<p>Last updated: June 23, 2026</p>
+<p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
+<p>We use Your Personal Data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy.</p>
+<h2>Interpretation and Definitions</h2>
+<h3>Interpretation</h3>
+<p>The words whose initial letters are capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
+<h3>Definitions</h3>
+<p>For the purposes of this Privacy Policy:</p>
+<ul>
+<li><strong>Account</strong> means a unique account created for You to access our Service or parts of our Service.</li>
+<li><strong>Application</strong> refers to CamLog, the software program provided by the Company.</li>
+<li><strong>Company</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Privacy Policy) refers to CamLog. For the purposes of the GDPR, the Company is the Data Controller.</li>
+<li><strong>Country</strong> refers to: California, United States</li>
+<li><strong>Device</strong> means any device that can access the Service such as a computer, a cell phone or a digital tablet.</li>
+<li><strong>GDPR</strong> refers to EU General Data Protection Regulation.</li>
+<li><strong>Personal Data</strong> (or "Personal Information") is any information that relates to an identified or identifiable individual.</li>
+<li><strong>Service</strong> refers to the Application.</li>
+<li><strong>Service Provider</strong> means any natural or legal person who processes the data on behalf of the Company.</li>
+<li><strong>You</strong> means the individual accessing or using the Service.</li>
+</ul>
+<h2>Collecting and Using Your Personal Data</h2>
+<h3>Personal Data</h3>
+<p>While using Our Service, We may ask You to provide Us with certain personally identifiable information, including:</p>
+<ul>
+<li>Email address</li>
+<li>Display name (optional, user-provided, maximum 40 characters)</li>
+</ul>
+<h3>User-Generated Content</h3>
+<p>When You use the Service, You may create and store production log data, including project names, camera configurations, scene and take records, roll numbers, and free-form notes. This content is associated with an internal account identifier rather than directly with Your name or email address and is not considered Personal Data for the purposes of this Privacy Policy.</p>
+<p>In the event of account deletion, Your Personal Data (email address and display name) is removed from Our systems. You may request complete removal of Your production log content by contacting Us at hello@camlog.app.</p>
+<h3>Use of Your Personal Data</h3>
+<p>The Company may use Personal Data to provide and maintain our Service, manage Your Account, contact You regarding updates or security matters, and manage Your requests to Us.</p>
+<h3>Sharing Your Personal Data</h3>
+<p>We may share Your Personal Data with Service Providers (Vercel, Neon, Cloudflare, Stripe, Resend) to operate the Service. When You use CamLog Pro shared projects, Your email address and display name may be visible to other members of the same project.</p>
+<h3>Retention</h3>
+<p>We retain Personal Data for the duration of your account relationship plus up to 24 months after account closure. Transaction records are retained for up to 10 years to comply with tax and financial regulations.</p>
+<h3>Delete Your Personal Data</h3>
+<p>You may request deletion of Your Personal Data by contacting Us at hello@camlog.app. We will respond within 30 days.</p>
+<h2>Sub-Processors</h2>
+<ul>
+<li><strong>Stripe</strong> — <a href="https://stripe.com/privacy" target="_blank" rel="noopener" style="color:#e05a4e">stripe.com/privacy</a></li>
+<li><strong>Vercel</strong> — <a href="https://vercel.com/legal/privacy-notice" target="_blank" rel="noopener" style="color:#e05a4e">vercel.com/legal/privacy-notice</a></li>
+<li><strong>Neon</strong> — <a href="https://neon.tech/privacy-policy" target="_blank" rel="noopener" style="color:#e05a4e">neon.tech/privacy-policy</a></li>
+<li><strong>Cloudflare</strong> — <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener" style="color:#e05a4e">cloudflare.com/privacypolicy</a></li>
+<li><strong>Resend</strong> — <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener" style="color:#e05a4e">resend.com/legal/privacy-policy</a></li>
+</ul>
+<h2>GDPR &amp; CCPA</h2>
+<p>If You are in the EU/EEA/UK, You have the right to access, correct, restrict, or erase Your Personal Data, and to lodge a complaint with your local data protection authority. If You are in California, You have the right to know what Personal Data is collected, request deletion, and opt out of sale (we do not sell Personal Data).</p>
+<p>To exercise any of these rights, contact us at hello@camlog.app.</p>
+<h2>Children's Privacy</h2>
+<p>Our Service does not address anyone under the age of 16. We do not knowingly collect personally identifiable information from anyone under the age of 16.</p>
+<h2>Changes to this Privacy Policy</h2>
+<p>We will notify You of any material changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
+<h2>Contact Us</h2>
+<p>By email: hello@camlog.app</p>`;
+
+    const _termsHtml = () => `<h1>Terms of Service</h1>
+<p>Last updated: June 23, 2026</p>
+<p>Please read these Terms of Service carefully before using CamLog. By creating an account or using the Service, you agree to be bound by these Terms.</p>
+<h2>1. About CamLog</h2>
+<p>CamLog is a camera and production logging tool for film and video production, operated by an individual. Contact: hello@camlog.app.</p>
+<h2>2. Eligibility</h2>
+<p>You must be at least 16 years of age to use the Service.</p>
+<h2>3. Accounts</h2>
+<p>You are responsible for your account credentials and all activity under your account. Notify us at hello@camlog.app if you suspect unauthorized access.</p>
+<h2>4. User Content</h2>
+<p>You retain ownership of all production log data you create. You grant us a limited license to store, sync, and display it solely to operate the Service. If you believe content infringes your copyright, contact hello@camlog.app with a DMCA notice.</p>
+<h2>5. Pro Projects</h2>
+<p>A Pro license is granted to a single project entity. Renaming your project is permitted. Deliberately resetting a Pro project — renaming it and deleting substantially all cameras and content — to reuse the Pro slot for a different production ("project cycling") is a violation of these Terms. We may revoke Pro status, delete the project, or terminate your account for repeated violations, without refund.</p>
+<h2>6. Purchases and Payment</h2>
+<p>All purchases are final — we do not offer refunds. By completing a purchase, you understand that you are acquiring a non-refundable digital license to unlock Pro features for a single project. Price changes will not affect Pro licenses already purchased.</p>
+<h2>7. Feedback</h2>
+<p>Feedback you submit may be used by us without compensation or credit.</p>
+<h2>8. Prohibited Conduct</h2>
+<p>You agree not to use the Service unlawfully, attempt unauthorized access, reverse engineer the Service, use automated scraping tools, or impersonate any person or entity.</p>
+<h2>9. Termination</h2>
+<p>We may suspend or terminate your account at any time, with or without cause. No refund is owed if termination is due to a Terms violation.</p>
+<h2>10. Disclaimers</h2>
+<p>The Service is provided "as is" without warranties of any kind. Use of the Service is at your own risk.</p>
+<h2>11. Limitation of Liability</h2>
+<p>Our total liability for any claim is limited to the amount you paid for the specific project giving rise to the claim, not to exceed $8.00 USD. We are not liable for indirect, incidental, or consequential damages.</p>
+<h2>12. Governing Law</h2>
+<p>These Terms are governed by the laws of California. Disputes shall be resolved in California courts. Please contact hello@camlog.app before filing any claim.</p>
+<h2>13. Changes</h2>
+<p>We may update these Terms and will notify you of material changes through the Service or by email.</p>
+<h2>14. Contact</h2>
+<p>By email: hello@camlog.app</p>`;
+
+    function _showLandingLegal(page) {
+      document.getElementById('landing-legal-content').innerHTML = page === 'privacy' ? _privacyHtml() : _termsHtml();
+      const overlay = document.getElementById('landing-legal-overlay');
+      overlay.style.display = 'block';
+      overlay.scrollTop = 0;
+      overlay.onclick = e => { if (e.target === overlay) overlay.style.display = 'none'; };
+    }
+  </script>
 
 </body>
 </html>
