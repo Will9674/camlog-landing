@@ -150,9 +150,352 @@
       display: flex;
       justify-content: center;
       margin-bottom: 36px;
-      opacity: 0.18;
       pointer-events: none;
       user-select: none;
+    }
+
+    /* Running film: sprockets + frame lines advance at matched speed */
+    .film-holes  { animation: film-advance 1.3s linear infinite; }
+    .film-frames { animation: frame-advance 3.6s linear infinite; }
+    @keyframes film-advance  { to { transform: translateX(-13px); } }
+    @keyframes frame-advance { to { transform: translateX(-36px); } }
+
+    /* Viewfinder HUD */
+    .hero-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 480px;
+      margin: 0 auto 30px;
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--text3);
+      user-select: none;
+    }
+    .hud-rec {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .rec-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: rec-blink 1.4s steps(1) infinite;
+    }
+    @keyframes rec-blink { 50% { opacity: 0.15; } }
+    .hud-tc { font-variant-numeric: tabular-nums; }
+
+    /* ── Hero app demo: self-playing replica of the log screen ── */
+    .hero-demo {
+      margin: 0;
+      max-width: 360px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    /* Demo band: log-screen animation beside its copy */
+    .demo-band {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 12px 24px 32px;
+    }
+    .demo-band-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 56px;
+      align-items: start;
+      /* Reserve the demo's tallest state so the card grows/shrinks within the
+         band instead of pushing the section below it up and down each loop. */
+      min-height: 555px;
+    }
+    /* Anchor the copy near the card's vertical middle without following its
+       height — the demo grows downward as takes are added, so centering would
+       drag the text with it. */
+    .demo-band-text { padding-top: 40px; }
+    .demo-band-text .section-title { margin-bottom: 14px; }
+    @media (max-width: 720px) {
+      .demo-band-inner {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 30px;
+        min-height: 0;
+      }
+      .demo-band-text { padding-top: 0; }
+      .demo-band-text .section-body { margin-left: auto; margin-right: auto; }
+    }
+    .demo-app {
+      position: relative;
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 4px 18px rgba(0,0,0,0.4);
+      font-size: 14px;
+      user-select: none;
+      pointer-events: none;
+    }
+    .demo-header {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      padding: 0 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .demo-back {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      width: 52px;
+    }
+    .demo-title {
+      flex: 1;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1.15;
+    }
+    .demo-title .demo-sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text2);
+    }
+    .demo-hdr-icons {
+      width: 52px;
+      display: inline-flex;
+      justify-content: flex-end;
+      gap: 10px;
+      color: var(--text2);
+    }
+    .demo-hdr-icons svg { width: 15px; height: 15px; }
+    .demo-hdr-icons .wand { color: var(--accent); }
+
+    .demo-body { padding: 10px; transition: opacity 0.35s ease; }
+    .demo-body.resetting { opacity: 0; }
+
+    .demo-row { display: flex; gap: 6px; margin-bottom: 6px; }
+    .demo-tile {
+      flex: 1;
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 8px 9px;
+      border: 1px solid transparent;
+      transition: border-color 0.25s ease, background 0.25s ease;
+      min-height: 52px;
+    }
+    .demo-tile.active {
+      border-color: rgba(230,57,70,0.55);
+      background: var(--surface2);
+    }
+    .dt-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+    .dt-val {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+      min-height: 19px;
+    }
+    .dt-sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+    /* Ghosted carry-over values from the previous scene */
+    .dt-val span, .dt-sub { transition: color 0.5s ease; }
+    .dt-ghost { color: var(--text3) !important; }
+    .dt-empty { color: var(--text3); font-weight: 500; }
+
+    /* Scene # tile with letter-up button */
+    .dt-scene-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .dt-step-btn {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: var(--surface2);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .dt-step-btn.active { background: var(--accent-dim); transform: scale(0.9); }
+
+    /* Compact 4-up row (FPS / Shutter / ISO / Color Temp) */
+    .demo-row-4 .demo-tile { padding: 7px 7px; min-height: 44px; }
+    .demo-row-4 .dt-label { font-size: 8px; letter-spacing: 0.03em; }
+    .demo-row-4 .dt-val { font-size: 12px; min-height: 15px; }
+
+    /* Smart Fill toast */
+    .demo-toast {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translate(-50%, 16px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f5f5f7;
+      color: #1c1c1e;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 22px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: 6;
+    }
+    .demo-toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .demo-toast .undo { color: var(--accent); font-weight: 700; }
+    .demo-hdr-icons .wand.zap { animation: twinkle 0.7s ease-in-out; }
+    .dt-caret {
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      margin-left: 1px;
+      background: var(--accent);
+      vertical-align: -2px;
+      animation: rec-blink 0.8s steps(1) infinite;
+    }
+    .dt-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+    .dt-chip {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface3);
+      border-radius: 6px;
+      padding: 3px 8px;
+    }
+    .dt-chip.pop { animation: chip-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    .demo-take-label.pop { display: inline-block; animation: chip-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    #demo-roll-val.pop { display: inline-block; animation: chip-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    @keyframes chip-pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+
+    .demo-takes { margin-top: 10px; }
+    .demo-takes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .demo-takes-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .demo-mode-toggle {
+      display: inline-flex;
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .demo-mode-btn {
+      width: 30px;
+      height: 22px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text2);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .demo-mode-btn svg { width: 12px; height: 12px; }
+    .demo-mode-btn.active { background: var(--surface3); color: var(--text); }
+    .demo-take {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .demo-take.slide-in { animation: take-in 0.4s ease both; }
+    @keyframes take-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+    .demo-take-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .demo-take-label { font-size: 12px; color: var(--text); }
+    .demo-take-label.ghost { color: var(--text3); }
+    .demo-circles { display: none; gap: 8px; flex-wrap: wrap; padding: 4px 0 6px; }
+    .demo-circles.show { display: flex; }
+    .demo-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .demo-circle.circled {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.08);
+    }
+    .demo-add-take {
+      margin-top: 8px;
+      width: 100%;
+      padding: 9px;
+      text-align: center;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+    .demo-add-take.active { background: var(--accent-dim); }
+
+    /* Tap ripple */
+    .demo-tap {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      z-index: 5;
+      top: 0;
+      left: 0;
+    }
+    .demo-tap.go { animation: tap-ripple 0.5s ease-out both; }
+    @keyframes tap-ripple {
+      0%   { opacity: 0.7; transform: translate(-50%, -50%) scale(0.3); }
+      100% { opacity: 0;   transform: translate(-50%, -50%) scale(1.6); }
     }
 
     .hero-wordmark {
@@ -416,23 +759,120 @@
     .wrapped-layout {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 48px;
+      grid-template-areas:
+        "text   visual"
+        "cta    visual";
+      column-gap: 48px;
+      row-gap: 0;
       align-items: center;
     }
-    @media (max-width: 560px) { .wrapped-layout { grid-template-columns: 1fr; } }
+    .wrapped-text   { grid-area: text; align-self: end; }
+    .wrapped-cta    { grid-area: cta; align-self: start; margin-top: 24px; }
+    .wrapped-visual { grid-area: visual; }
+    @media (max-width: 560px) {
+      .wrapped-layout {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "visual"
+          "cta";
+        row-gap: 28px;
+      }
+      .wrapped-text   { align-self: auto; }
+      .wrapped-cta    { align-self: auto; justify-self: center; margin-top: 0; }
+    }
 
     .wrapped-visual {
-      width: 200px;
-      height: 140px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    @media (max-width: 560px) { .wrapped-visual { display: none; } }
+    @media (max-width: 560px) {
+      .wrapped-visual { margin-top: 8px; }
+    }
+
+    /* ── CamLog Wrapped share-card mockup (cycles themes) ── */
+    .wcard {
+      --wc-bg: #111111;
+      --wc-accent: #e63946;
+      --wc-ink: #f2f2f7;
+      --wc-ink2: #8e8e93;
+      --wc-grad: linear-gradient(120deg, #3b82f6 0%, #e63946 55%, #fbbf24 100%);
+      width: 232px;
+      aspect-ratio: 9 / 16;
+      background: var(--wc-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 16px 15px 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      user-select: none;
+      transition: background-color 0.8s ease, border-color 0.8s ease;
+    }
+    .wcard.wc-cinema {
+      --wc-bg: #0e0b07; --wc-accent: #e2a44f; --wc-ink: #f6efe2; --wc-ink2: #9a8f7c;
+      --wc-grad: linear-gradient(120deg, #8a4b1e 0%, #e2a44f 55%, #f6d060 100%);
+    }
+    .wcard.wc-neon {
+      --wc-bg: #080611; --wc-accent: #ff2d95; --wc-ink: #f2efff; --wc-ink2: #8a83ad;
+      --wc-grad: linear-gradient(120deg, #00e5ff 0%, #ff2d95 55%, #b026ff 100%);
+    }
+    .wcard.wc-scifi {
+      --wc-bg: #05090a; --wc-accent: #00ff9c; --wc-ink: #d6ffe9; --wc-ink2: #5f8a76;
+      --wc-grad: linear-gradient(120deg, #00e5ff 0%, #00ff9c 55%, #b6ff00 100%);
+    }
+    /* Instagram story top-clear zone: room for the IG avatar + handle overlay */
+    .wc-ig {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 30px;
+      opacity: 0.4;
+    }
+    .wc-ig-av { width: 15px; height: 15px; border-radius: 50%; background: var(--wc-ink2); flex-shrink: 0; transition: background-color 0.8s ease; }
+    .wc-ig-handle { width: 50px; height: 6px; border-radius: 3px; background: var(--wc-ink2); transition: background-color 0.8s ease; }
+    /* Project title */
+    .wc-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--wc-ink);
+      line-height: 1;
+      margin-bottom: 14px;
+      white-space: nowrap;
+      transition: color 0.8s ease;
+    }
+    /* Hero stat row */
+    .wc-heros { display: flex; gap: 10px; margin-bottom: 15px; }
+    .wc-hero-lbl { font-size: 6px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--wc-accent); transition: color 0.8s ease; }
+    .wc-hero-num { font-size: 17px; font-weight: 700; line-height: 1.1; color: var(--wc-ink); transition: color 0.8s ease; }
+    .wc-hero-sub { font-size: 8px; color: var(--wc-ink2); transition: color 0.8s ease; }
+    /* Cameras section */
+    .wc-sec-lbl { font-size: 6px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--wc-accent); margin-bottom: 7px; transition: color 0.8s ease; }
+    .wc-strip { display: flex; height: 8px; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+    .wc-strip i { display: block; height: 100%; }
+    .wc-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 15px; }
+    .wc-legend span { display: inline-flex; align-items: center; gap: 5px; font-size: 8px; color: var(--wc-ink); transition: color 0.8s ease; }
+    .wc-legend i { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
+    .wc-legend b { font-weight: 400; color: var(--wc-ink2); transition: color 0.8s ease; }
+    /* Winner rows (stacked: label, then name + gradient %) */
+    .wc-winners { flex: 1; display: flex; flex-direction: column; justify-content: space-around; min-height: 0; }
+    .wc-win-lbl { font-size: 6px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--wc-accent); margin-bottom: 3px; transition: color 0.8s ease; }
+    .wc-win-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .wc-win-name { font-size: 18px; font-weight: 700; color: var(--wc-ink); transition: color 0.8s ease; }
+    .wc-win-pct { font-size: 18px; font-weight: 700; background: var(--wc-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    /* Footer: fixed brand + gradient bar (never repaints per theme) */
+    .wc-footer { display: flex; align-items: baseline; justify-content: space-between; margin-top: 12px; }
+    .wc-foot-mark { font-size: 9px; font-weight: 700; letter-spacing: 0.2px; }
+    .wc-foot-mark .m1 { color: #f2f2f7; }
+    .wc-foot-mark .m2 { color: #e63946; }
+    .wc-foot-mark .m3 { color: #fbbf24; }
+    .wc-foot-url { font-size: 9px; font-weight: 700; color: #e63946; }
+    .wc-foot-bar { height: 4px; border-radius: 2px; margin-top: 7px; background: linear-gradient(90deg, #3b82f6 0%, #b026ff 25%, #e63946 60%, #fbbf24 100%); }
 
     .btn-wrapped {
       display: inline-flex;
@@ -513,6 +953,174 @@
       color: var(--text2);
       margin-bottom: 28px;
     }
+
+    /* ── FAQ ────────────────────────────────────────────── */
+    .faq-list {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.25s ease;
+    }
+    .faq-item.open { border-color: rgba(230,57,70,0.32); }
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      transition: color 0.2s ease;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      color: var(--text2);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.2s ease;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--accent); }
+    .faq-a-wrap {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.32s cubic-bezier(0.4,0,0.2,1);
+    }
+    .faq-item.open .faq-a-wrap { grid-template-rows: 1fr; }
+    .faq-a { overflow: hidden; }
+    .faq-a-inner {
+      padding: 0 20px 20px;
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+    .faq-a-inner strong { color: var(--text); font-weight: 600; }
+    .faq-a-inner .accent { color: var(--accent); font-weight: 600; }
+
+    /* ── Motion ─────────────────────────────────────────── */
+
+    /* Hero entrance */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .hero-hud      { animation: rise 0.7s ease 0.02s both; }
+    .hero-film     { animation: rise 0.7s ease 0.10s both; }
+    .hero-wordmark { animation: rise 0.7s ease 0.22s both; }
+    .hero-tag      { animation: rise 0.7s ease 0.36s both; }
+    .hero-ctas     { animation: rise 0.7s ease 0.50s both; }
+
+    /* Breathing glow on the red "Log" */
+    .hero-wordmark em {
+      animation: rec-glow 3.6s ease-in-out 1.4s infinite;
+    }
+    @keyframes rec-glow {
+      0%, 100% { text-shadow: 0 0 0 rgba(230,57,70,0); }
+      50%      { text-shadow: 0 0 24px rgba(230,57,70,0.32); }
+    }
+
+    /* Scroll reveal: sections get data-reveal, children get .rv + --d delay */
+    [data-reveal] .rv {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease var(--d, 0s), transform 0.7s ease var(--d, 0s);
+    }
+    [data-reveal].in .rv { opacity: 1; transform: none; }
+
+    /* Wrapped chart bars grow from the left */
+    [data-reveal] .wbar {
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s);
+    }
+    [data-reveal].in .wbar { transform: scaleX(1); }
+
+    /* Pro price pop */
+    [data-reveal] .pro-price {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.5s ease 0.3s, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+    }
+    [data-reveal].in .pro-price { opacity: 1; transform: none; }
+
+    /* Card + icon hover micro-interactions */
+    .feat-card {
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .feat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(230,57,70,0.35);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+    }
+    .feat-icon svg { transition: transform 0.25s ease; }
+    .feat-card:hover .feat-icon svg { transform: scale(1.15); }
+
+    .stat-block { transition: transform 0.25s ease, border-color 0.25s ease; }
+    .stat-block:hover { transform: translateY(-3px); border-color: rgba(230,57,70,0.25); }
+
+    .btn-primary svg { transition: transform 0.2s ease; }
+    .btn-primary:hover svg { transform: translate(2px, -2px); }
+    .btn-wrapped svg { transition: transform 0.2s ease; }
+    .btn-wrapped:hover svg { transform: translateY(-2px); }
+
+    /* Pro star twinkle */
+    .pro-badge svg { animation: twinkle 3.2s ease-in-out infinite; }
+    @keyframes twinkle {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+      50%      { transform: scale(1.25) rotate(12deg); opacity: 0.85; }
+    }
+
+    /* "Ours" compare card pulses gently */
+    .compare-card.ours { animation: ours-pulse 4s ease-in-out infinite; }
+    @keyframes ours-pulse {
+      0%, 100% { border-color: rgba(230,57,70,0.25); box-shadow: 0 0 0 rgba(230,57,70,0); }
+      50%      { border-color: rgba(230,57,70,0.55); box-shadow: 0 0 20px rgba(230,57,70,0.10); }
+    }
+
+    /* Wrapped gradient divider drifts */
+    .wrapped-divider {
+      background-size: 200% 100%;
+      animation: gradient-drift 7s ease-in-out infinite alternate;
+    }
+    @keyframes gradient-drift {
+      from { background-position: 0% 0; }
+      to   { background-position: 100% 0; }
+    }
+
+    /* Wrapped visual floats */
+    .wrapped-visual { animation: float 6s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-7px); }
+    }
+
+    /* ── Reduced motion: everything settles instantly ───── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
+      }
+      html { scroll-behavior: auto; }
+      [data-reveal] .rv, [data-reveal] .wbar, [data-reveal] .pro-price {
+        opacity: 1; transform: none;
+      }
+    }
   </style>
 </head>
 
@@ -525,6 +1133,7 @@
       <a href="#features" class="nav-link">Features</a>
       <a href="#pro"      class="nav-link">Pro</a>
       <a href="#wrapped"  class="nav-link">Wrapped</a>
+      <a href="#faq"      class="nav-link">FAQ</a>
     </div>
   </nav>
 
@@ -532,40 +1141,53 @@
   <!-- ── Hero ─────────────────────────────────────────────── -->
   <div class="hero">
 
-    <!-- Film strip icon, same one from the app's empty state -->
+    <!-- Viewfinder HUD: blinking REC + running 24fps timecode -->
+    <div class="hero-hud" aria-hidden="true">
+      <span class="hud-rec"><span class="rec-dot"></span>REC</span>
+      <span class="hud-tc" id="hud-tc">00:00:00:00</span>
+    </div>
+
+    <!-- Film strip icon, same one from the app's empty state — now running -->
     <div class="hero-film" aria-hidden="true">
       <svg width="160" height="78" viewBox="0 0 108 52" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <mask id="hs-top">
-            <rect width="108" height="13" fill="white"/>
-            <rect x="6"  y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="19" y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="32" y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="45" y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="58" y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="71" y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="84" y="3" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="97" y="3" width="7" height="7" rx="1.5" fill="black"/>
-          </mask>
-          <mask id="hs-bot">
-            <rect y="39" width="108" height="13" fill="white"/>
-            <rect x="6"  y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="19" y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="32" y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="45" y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="58" y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="71" y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="84" y="42" width="7" height="7" rx="1.5" fill="black"/>
-            <rect x="97" y="42" width="7" height="7" rx="1.5" fill="black"/>
-          </mask>
+          <clipPath id="strip-clip">
+            <rect x="1" y="1" width="106" height="50" rx="2"/>
+          </clipPath>
         </defs>
-        <rect width="108" height="13" fill="white" mask="url(#hs-top)"/>
-        <rect y="39" width="108" height="13" fill="white" mask="url(#hs-bot)"/>
-        <rect x="0.5" y="0.5" width="107" height="51" rx="2.5" stroke="white" stroke-width="1.5"/>
-        <line x1="0" y1="13" x2="108" y2="13" stroke="white" stroke-width="1"/>
-        <line x1="0" y1="39" x2="108" y2="39" stroke="white" stroke-width="1"/>
-        <line x1="36" y1="13" x2="36" y2="39" stroke="white" stroke-width="1.5"/>
-        <line x1="72" y1="13" x2="72" y2="39" stroke="white" stroke-width="1.5"/>
+        <g clip-path="url(#strip-clip)">
+          <rect width="108" height="13" fill="rgba(255,255,255,0.18)"/>
+          <rect y="39" width="108" height="13" fill="rgba(255,255,255,0.18)"/>
+          <g class="film-holes">
+            <rect x="6"   y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="19"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="32"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="45"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="58"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="71"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="84"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="97"  y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="110" y="3" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="6"   y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="19"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="32"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="45"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="58"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="71"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="84"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="97"  y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+            <rect x="110" y="42" width="7" height="7" rx="1.5" fill="#111111"/>
+          </g>
+          <g class="film-frames">
+            <line x1="36"  y1="13" x2="36"  y2="39" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+            <line x1="72"  y1="13" x2="72"  y2="39" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+            <line x1="108" y1="13" x2="108" y2="39" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+            <line x1="144" y1="13" x2="144" y2="39" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+          </g>
+        </g>
+        <rect x="0.5" y="0.5" width="107" height="51" rx="2.5" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+        <line x1="0" y1="13" x2="108" y2="13" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        <line x1="0" y1="39" x2="108" y2="39" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
       </svg>
     </div>
 
@@ -581,18 +1203,117 @@
         </svg>
       </a>
     </div>
+
+  </div>
+
+  <!-- ── Demo band: log-screen animation + copy ─────────────── -->
+  <div class="demo-band" data-reveal>
+    <div class="demo-band-inner">
+      <div class="demo-band-text rv">
+        <h2 class="section-title">Log a scene in seconds</h2>
+        <p class="section-body">Tap a field, enter data with text or preset, circle your takes. Smart Fill carries your last setup forward, so on every new scene you're only entering what actually changed.</p>
+      </div>
+
+      <!-- Self-playing demo of the log screen -->
+      <div class="hero-demo rv" style="--d:0.12s" aria-hidden="true">
+      <div class="demo-app" id="demo-app">
+        <div class="demo-header">
+          <span class="demo-back">‹ Log</span>
+          <span class="demo-title">New Scene<span class="demo-sub">A Cam · Sony Venice 2</span></span>
+          <span class="demo-hdr-icons">
+            <svg class="wand" id="demo-wand" width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4.5" y1="15.5" x2="10.5" y2="9.5"/><path d="M12 4l.6 1.9 1.9.6-1.9.6-.6 1.9-.6-1.9-1.9-.6 1.9-.6z" fill="currentColor" stroke="none"/><line x1="16" y1="2" x2="16" y2="4"/><line x1="15" y1="3" x2="17" y2="3"/><line x1="17" y1="7" x2="18" y2="8"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </span>
+        </div>
+        <div class="demo-body" id="demo-body">
+          <div class="demo-row">
+            <div class="demo-tile" id="demo-scene">
+              <div class="dt-label">Scene #</div>
+              <div class="dt-scene-body">
+                <span class="dt-val"><span id="demo-scene-val" class="dt-ghost">401C</span></span>
+                <span class="dt-step-btn" id="demo-scene-step">↑</span>
+              </div>
+            </div>
+            <div class="demo-tile" id="demo-roll">
+              <div class="dt-label">Roll</div>
+              <div class="dt-scene-body">
+                <span class="dt-val"><span id="demo-roll-val">A006</span></span>
+                <span class="dt-step-btn" id="demo-roll-step">↻</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <div class="demo-tile" id="demo-lens">
+              <div class="dt-label">Lens</div>
+              <div class="dt-val"><span id="demo-lens-val" class="dt-ghost">75mm</span><span class="dt-sub dt-ghost" id="demo-lens-sub">Master Prime</span></div>
+            </div>
+            <div class="demo-tile" id="demo-stop">
+              <div class="dt-label">Stop</div>
+              <div class="dt-val"><span id="demo-stop-val" class="dt-ghost">T4 1/2</span></div>
+            </div>
+            <div class="demo-tile" id="demo-filters">
+              <div class="dt-label">Filters</div>
+              <div class="dt-chips" id="demo-chips"><span class="dt-empty" id="demo-filters-empty">—</span></div>
+            </div>
+          </div>
+          <div class="demo-row demo-row-4">
+            <div class="demo-tile">
+              <div class="dt-label">FPS</div>
+              <div class="dt-val"><span class="dt-ghost">23.98fps</span></div>
+            </div>
+            <div class="demo-tile">
+              <div class="dt-label">Shutter</div>
+              <div class="dt-val"><span class="dt-ghost">180&#8738;</span></div>
+            </div>
+            <div class="demo-tile">
+              <div class="dt-label">ISO</div>
+              <div class="dt-val"><span class="dt-ghost">800EI</span></div>
+            </div>
+            <div class="demo-tile">
+              <div class="dt-label">Color Temp</div>
+              <div class="dt-val"><span class="dt-ghost">5600K</span></div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <div class="demo-tile" id="demo-desc">
+              <div class="dt-label">Description</div>
+              <div class="dt-val" style="font-size:13px;font-weight:500"><span id="demo-desc-val" class="dt-ghost">Wide</span></div>
+            </div>
+          </div>
+          <div class="demo-takes">
+            <div class="demo-takes-header">
+              <span class="demo-takes-label">Takes</span>
+              <span class="demo-mode-toggle">
+                <span class="demo-mode-btn active" id="demo-mode-edit">
+                  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 2.5L15.5 5.5L6.5 14.5L2.5 15.5L3.5 11.5Z"/><path d="M10.5 4.5L13.5 7.5"/></svg>
+                </span>
+                <span class="demo-mode-btn" id="demo-mode-circle">
+                  <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="9"/></svg>
+                </span>
+              </span>
+            </div>
+            <div id="demo-takes"></div>
+            <div class="demo-circles" id="demo-circles"></div>
+            <div class="demo-add-take" id="demo-add">+ Add Take</div>
+          </div>
+        </div>
+        <div class="demo-toast" id="demo-toast">Smart Fill applied<span class="undo">Undo</span></div>
+        <div class="demo-tap" id="demo-tap"></div>
+      </div>
+      </div>
+    </div>
   </div>
 
 
   <!-- ── Features ─────────────────────────────────────────── -->
   <hr class="divider">
-  <div class="section-wrap" id="features">
-    <div class="eyebrow">Features</div>
-    <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+  <div class="section-wrap" id="features" data-reveal>
+    <div class="eyebrow rv">Features</div>
+    <h2 class="section-title rv" style="--d:0.06s">Everything you need.<br>Nothing you don't.</h2>
 
     <div class="features-grid">
 
-      <div class="feat-card">
+      <div class="feat-card rv" style="--d:0.12s">
         <div class="feat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/>
@@ -604,7 +1325,7 @@
         <div class="feat-desc">Runs in any browser on iPhone, Android, iPad, laptop. Install it to your home screen — no App Store needed.</div>
       </div>
 
-      <div class="feat-card">
+      <div class="feat-card rv" style="--d:0.18s">
         <div class="feat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
@@ -614,7 +1335,7 @@
         <div class="feat-desc">Log notes on set while offline. Everything saves locally and syncs automatically when you're back online.</div>
       </div>
 
-      <div class="feat-card">
+      <div class="feat-card rv" style="--d:0.24s">
         <div class="feat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"/>
@@ -625,7 +1346,7 @@
         <div class="feat-desc">Enable only the fields your production needs: ISO, Film Stock, Filters, Aspect Ratio, etc. Add custom presets for faster entry.</div>
       </div>
 
-      <div class="feat-card">
+      <div class="feat-card rv" style="--d:0.30s">
         <div class="feat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -643,10 +1364,10 @@
 
   <!-- ── About / mission ──────────────────────────────────── -->
   <hr class="divider">
-  <div class="section-wrap">
+  <div class="section-wrap" data-reveal>
     <div class="about-grid">
 
-      <div>
+      <div class="rv">
         <div class="eyebrow">Built Different</div>
         <h2 class="section-title">Not another subscription app.</h2>
         <div class="section-body">
@@ -659,15 +1380,15 @@
       </div>
 
       <div class="about-stat">
-        <div class="stat-block">
+        <div class="stat-block rv" style="--d:0.15s">
           <div class="stat-number">Free</div>
           <div class="stat-label">Unlimited single-user projects.</div>
         </div>
-        <div class="stat-block">
+        <div class="stat-block rv" style="--d:0.25s">
           <div class="stat-number">Offline</div>
           <div class="stat-label">Log notes regardless of connection quality. Data syncs when connection is restored and stable.</div>
         </div>
-        <div class="stat-block">
+        <div class="stat-block rv" style="--d:0.35s">
           <div class="stat-number">Any device</div>
           <div class="stat-label">iPhone, Android, iPad, laptop. No download required.</div>
         </div>
@@ -679,45 +1400,45 @@
 
   <!-- ── Pro ──────────────────────────────────────────────── -->
   <hr class="divider">
-  <div class="section-wrap" id="pro">
+  <div class="section-wrap" id="pro" data-reveal>
     <div class="pro-card">
 
-      <div class="pro-badge">
+      <div class="pro-badge rv">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         CamLog Pro
       </div>
 
       <div class="pro-layout">
         <div>
-          <h2 class="section-title">Multi-user sync.<br>One-time price.</h2>
-          <p class="section-body" style="max-width:460px">The whole team shares the same real-time camera logs. The project admin upgrades once, everyone else on the team joins for free via a QR code or shared link.</p>
+          <h2 class="section-title rv" style="--d:0.06s">Multi-user sync.<br>One-time price.</h2>
+          <p class="section-body rv" style="max-width:460px;--d:0.12s">The whole team shares the same real-time camera logs. The project admin upgrades once, everyone else on the team joins for free via a QR code or shared link.</p>
 
           <ul class="pro-perks">
-            <li>
+            <li class="rv" style="--d:0.20s">
               <span class="perk-check">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
               <span>Invite your department via <strong>QR code or invite link</strong></span>
             </li>
-            <li>
+            <li class="rv" style="--d:0.26s">
               <span class="perk-check">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
               <span><strong>Everyone joins free.</strong> Only the project admin pays</span>
             </li>
-            <li>
+            <li class="rv" style="--d:0.32s">
               <span class="perk-check">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
               <span>Role-based access: <strong>Admin, Editor, Viewer</strong></span>
             </li>
-            <li>
+            <li class="rv" style="--d:0.38s">
               <span class="perk-check">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
               <span><strong>No subscription.</strong> Pay once per project</span>
             </li>
-            <li>
+            <li class="rv" style="--d:0.44s">
               <span class="perk-check">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
@@ -728,18 +1449,18 @@
 
         <div class="pro-price-block">
           <div class="pro-price"><sup>$</sup>8</div>
-          <div class="pro-price-label">per project<br>one&#8209;time</div>
+          <div class="pro-price-label rv" style="--d:0.45s">per project<br>one&#8209;time</div>
         </div>
       </div>
 
       <div class="pro-compare">
-        <div class="compare-card ours">
+        <div class="compare-card ours rv" style="--d:0.50s">
           <div class="compare-label">CamLog Pro</div>
           <div class="compare-price">$8</div>
           <div style="font-size:12px;color:var(--text2);margin:-4px 0 8px;">per project, one time</div>
           <div class="compare-desc">Admin pays once. 3 × 2nd ACs, Loader, Script Supervisor join free.</div>
         </div>
-        <div class="compare-card">
+        <div class="compare-card rv" style="--d:0.58s">
           <div class="compare-label">Other Log Apps</div>
           <div class="compare-price">$29.94 <span>/ mo</span></div>
           <div class="compare-desc">Same 6 crew members × $4.99/mo each.</div>
@@ -752,38 +1473,167 @@
 
   <!-- ── CamLog Wrapped ────────────────────────────────────── -->
   <div class="wrapped-divider"></div>
-  <div class="section-wrap" id="wrapped">
+  <div class="section-wrap" id="wrapped" data-reveal>
     <div class="wrapped-layout">
 
-      <div>
+      <div class="wrapped-text rv">
         <div class="eyebrow">CamLog Wrapped</div>
-        <h2 class="section-title">Visualize your camera data</h2>
+        <h2 class="section-title">Wrap your project. Share the stats.</h2>
         <div class="section-body">
-          <p>Upload a camera log CSV and instantly see a breakdown of your shoot: lens usage, camera support type, and more.</p>
-          <p>Filter by camera or date range. Works with exports from CamLog and other compatible camera log apps.</p>
-        </div>
-        <div style="margin-top: 24px;">
-          <a href="https://wrapped.camlog.app" class="btn-wrapped" target="_blank" rel="noopener">
-            Explore CamLog Wrapped
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"/>
-              <line x1="12" y1="20" x2="12" y2="4"/>
-              <line x1="6" y1="20" x2="6" y2="14"/>
-            </svg>
-          </a>
+          <p>Upload a camera log CSV and instantly see your whole project broken down: lens usage, camera support, optical filters, and more.</p>
+          <p>Then wrap it into a social-ready card. Pick a theme, export the image, and post straight to your social media. Works with exports from CamLog and other compatible log apps.</p>
         </div>
       </div>
 
-      <!-- Mini chart mockup -->
-      <div class="wrapped-visual" aria-hidden="true">
-        <svg width="140" height="90" viewBox="0 0 140 90" fill="none">
-          <text x="0" y="13" font-family="system-ui" font-size="9" fill="#48484a">40mm</text>
-          <rect x="0" y="17" width="116" height="9" rx="2" fill="#e63946" opacity="0.7"/>
-          <text x="0" y="44" font-family="system-ui" font-size="9" fill="#48484a">55mm</text>
-          <rect x="0" y="48" width="78" height="9" rx="2" fill="#e63946" opacity="0.45"/>
-          <text x="0" y="75" font-family="system-ui" font-size="9" fill="#48484a">24-290mm Zoom</text>
-          <rect x="0" y="79" width="44" height="9" rx="2" fill="#e63946" opacity="0.3"/>
-        </svg>
+      <!-- Wrapped share-card mockup: cycles through themes -->
+      <div class="wrapped-visual rv" style="--d:0.15s" aria-hidden="true">
+        <div class="wcard wc-classic" id="wrapped-card">
+          <div class="wc-ig">
+            <div class="wc-ig-av"></div>
+            <div class="wc-ig-handle"></div>
+          </div>
+          <div class="wc-title">NIGHTFALL</div>
+          <div class="wc-heros">
+            <div>
+              <div class="wc-hero-lbl">Total Shots</div>
+              <div class="wc-hero-num">542</div>
+            </div>
+            <div>
+              <div class="wc-hero-lbl">Shooting Days</div>
+              <div class="wc-hero-num">21</div>
+            </div>
+            <div>
+              <div class="wc-hero-lbl">Busiest Day</div>
+              <div class="wc-hero-num">May 6</div>
+              <div class="wc-hero-sub">37 Shots</div>
+            </div>
+          </div>
+          <div>
+            <div class="wc-sec-lbl">Cameras</div>
+            <div class="wc-strip">
+              <i style="width:84%;background:#e63946"></i>
+              <i style="width:15%;background:#3b82f6"></i>
+              <i style="width:1%;background:#f0a020"></i>
+            </div>
+            <div class="wc-legend">
+              <span><i style="background:#e63946"></i>A · <b>84.4%</b></span>
+              <span><i style="background:#3b82f6"></i>B · <b>14.6%</b></span>
+              <span><i style="background:#f0a020"></i>C · <b>0.7%</b></span>
+            </div>
+          </div>
+          <div class="wc-winners">
+            <div>
+              <div class="wc-win-lbl">Top Lens</div>
+              <div class="wc-win-row"><span class="wc-win-name">40mm</span><span class="wc-win-pct">30.3%</span></div>
+            </div>
+            <div>
+              <div class="wc-win-lbl">Most Shot On</div>
+              <div class="wc-win-row"><span class="wc-win-name">Handheld</span><span class="wc-win-pct">61.8%</span></div>
+            </div>
+            <div>
+              <div class="wc-win-lbl">Top Filter</div>
+              <div class="wc-win-row"><span class="wc-win-name">ND 0.3</span><span class="wc-win-pct">31.4%</span></div>
+            </div>
+          </div>
+          <div class="wc-footer">
+            <span class="wc-foot-mark"><span class="m1">Cam</span><span class="m2">Log</span><span class="m3">Wrapped</span></span>
+            <span class="wc-foot-url">camlog.app</span>
+          </div>
+          <div class="wc-foot-bar"></div>
+        </div>
+      </div>
+
+      <div class="wrapped-cta rv" style="--d:0.25s">
+        <a href="https://wrapped.camlog.app" class="btn-wrapped" target="_blank" rel="noopener">
+          Explore CamLog Wrapped
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── FAQ ──────────────────────────────────────────────── -->
+  <hr class="divider">
+  <div class="section-wrap" id="faq" data-reveal>
+    <div class="eyebrow rv">FAQ</div>
+    <h2 class="section-title rv" style="--d:0.05s">Questions, answered.</h2>
+
+    <div class="faq-list">
+
+      <div class="faq-item rv" style="--d:0.10s">
+        <button class="faq-q" aria-expanded="false">
+          <span>Is CamLog really free?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Yes, genuinely free, not a trial. Every single-user project is unlimited and fully featured: no timer counting down, no locked fields, no credit card. You only pay when you want your <strong>whole team synced live</strong> on one project, and even then it's just once.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item rv" style="--d:0.14s">
+        <button class="faq-q" aria-expanded="false">
+          <span>How is this different from other camera log apps?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Most camera log apps run on a <strong>monthly per-user subscription</strong>: six people on the camera team means six subscriptions, every month, whether you shot one day or thirty. CamLog takes a different approach. <span class="accent">One flat $8 per project, paid once by the admin</span>, and everyone else joins free. Nobody else pays a cent.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item rv" style="--d:0.18s">
+        <button class="faq-q" aria-expanded="false">
+          <span>So my whole department joins for free?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Exactly. On a Pro project the admin pays the single $8 and invites everyone by QR code or link. Your 2nd ACs, loader, and script supervisor <strong>join free</strong>. No accounts to buy, no per-seat fee, no subscription of their own.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item rv" style="--d:0.22s">
+        <button class="faq-q" aria-expanded="false">
+          <span>Does it work offline?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Yes. CamLog is offline-first. Log everything with no signal at all; it saves on your device and syncs automatically the moment you're back online. A bad-reception day on set never costs you a take.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item rv" style="--d:0.26s">
+        <button class="faq-q" aria-expanded="false">
+          <span>Do I have to download it from the App Store?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          No. CamLog opens in any browser on any phone, tablet, or laptop. Add it to your home screen and it behaves like a native app. Nothing to download, nothing to update, and it runs identically on iPhone and Android, so a <strong>mixed-device crew is on the same page</strong>.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item rv" style="--d:0.30s">
+        <button class="faq-q" aria-expanded="false">
+          <span>Can I get my data out?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Always. Export a PDF report, a CSV for post, or a full JSON backup that's yours to keep. Import a project to restore it or hand it off to another crew member. Your logs are <strong>never held hostage</strong>.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item rv" style="--d:0.34s">
+        <button class="faq-q" aria-expanded="false">
+          <span>Can I expense it?</span>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Easily. Every Pro purchase comes with an itemized, <strong>expense-ready receipt</strong> with your project name on it, so it drops straight onto your production expense report. No chasing down a subscription invoice.
+        </div></div></div>
       </div>
 
     </div>
@@ -792,10 +1642,10 @@
 
   <!-- ── Closing CTA ──────────────────────────────────────────── -->
   <hr class="divider">
-  <div class="closing-cta">
-    <h2>Ready to get started?</h2>
-    <p>Free to use. Create an account now.</p>
-    <a href="https://app.camlog.app" class="btn-primary" target="_blank" rel="noopener">
+  <div class="closing-cta" data-reveal>
+    <h2 class="rv">Ready to get started?</h2>
+    <p class="rv" style="--d:0.08s">Free to use. Create an account now.</p>
+    <a href="https://app.camlog.app" class="btn-primary rv" style="--d:0.16s" target="_blank" rel="noopener">
       Open CamLog
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -1143,6 +1993,263 @@
       overlay.scrollTop = 0;
       overlay.onclick = e => { if (e.target === overlay) overlay.style.display = 'none'; };
     }
+
+    // ── Scroll reveal ──────────────────────────────────────
+    const _reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const _revealEls = document.querySelectorAll('[data-reveal]');
+    if (_reduceMotion || !('IntersectionObserver' in window)) {
+      _revealEls.forEach(el => el.classList.add('in'));
+    } else {
+      const _io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            _io.unobserve(entry.target);
+            // Once settled, drop .rv so its slow reveal transition
+            // stops overriding the snappy hover transitions
+            setTimeout(() => {
+              entry.target.querySelectorAll('.rv').forEach(el => el.classList.remove('rv'));
+            }, 1600);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      _revealEls.forEach(el => _io.observe(el));
+    }
+
+    // ── FAQ accordion ──────────────────────────────────────
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const q = item.querySelector('.faq-q');
+      q.addEventListener('click', () => {
+        const open = item.classList.toggle('open');
+        q.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+
+    // ── Wrapped card: cycle themes while on screen ──────────
+    (() => {
+      const card = document.getElementById('wrapped-card');
+      if (!card || _reduceMotion) return;
+      const themes = ['wc-classic', 'wc-cinema', 'wc-neon', 'wc-scifi'];
+      let i = 0, timer = null, running = false;
+      const tick = () => {
+        i = (i + 1) % themes.length;
+        card.className = 'wcard ' + themes[i];
+        timer = setTimeout(tick, 2800);
+      };
+      new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting && !running) { running = true; timer = setTimeout(tick, 2800); }
+          else if (!e.isIntersecting && running) { running = false; clearTimeout(timer); }
+        });
+      }, { threshold: 0.4 }).observe(card);
+    })();
+
+    // ── Hero app demo: scripted loop of a 2nd AC's log flow ──
+    (() => {
+      const app = document.getElementById('demo-app');
+      if (!app || _reduceMotion) return;
+
+      const $ = id => document.getElementById(id);
+      const tap = el => {
+        const ripple = $('demo-tap');
+        const a = app.getBoundingClientRect();
+        const r = el.getBoundingClientRect();
+        ripple.style.left = (r.left - a.left + r.width / 2) + 'px';
+        ripple.style.top = (r.top - a.top + r.height / 2) + 'px';
+        ripple.classList.remove('go');
+        void ripple.offsetWidth;
+        ripple.classList.add('go');
+      };
+      const typeInto = (span, text) => {
+        span.textContent = '';
+        const caret = document.createElement('span');
+        caret.className = 'dt-caret';
+        span.after(caret);
+        let i = 0;
+        const t = setInterval(() => {
+          span.textContent = text.slice(0, ++i);
+          if (i >= text.length) { clearInterval(t); setTimeout(() => caret.remove(), 350); }
+        }, 90);
+      };
+      const flash = (el, ms = 900) => {
+        el.classList.add('active');
+        setTimeout(() => el.classList.remove('active'), ms);
+      };
+
+      const addChip = text => {
+        const empty = $('demo-filters-empty');
+        if (empty) empty.remove();
+        const chip = document.createElement('span');
+        chip.className = 'dt-chip pop';
+        chip.textContent = text;
+        $('demo-chips').appendChild(chip);
+      };
+      const addTake = (n, label) => {
+        const row = document.createElement('div');
+        row.className = 'demo-take slide-in';
+        row.innerHTML = `<span class="demo-take-name">Take ${n}</span>` +
+          `<span class="demo-take-label${label ? '' : ' ghost'}">${label || 'Add Label'}</span>`;
+        $('demo-takes').appendChild(row);
+        return row;
+      };
+
+      const steps = [
+        [1300, () => { // letter the scene up: ghost 401C → 401D
+          const btn = $('demo-scene-step');
+          tap(btn); btn.classList.add('active');
+          setTimeout(() => {
+            btn.classList.remove('active');
+            const val = $('demo-scene-val');
+            val.classList.remove('dt-ghost');
+            val.textContent = '401D';
+          }, 300);
+        }],
+        [1500, () => { // reload the roll: A006 → A007
+          const btn = $('demo-roll-step');
+          tap(btn); btn.classList.add('active');
+          setTimeout(() => {
+            btn.classList.remove('active');
+            $('demo-roll-val').textContent = 'A007';
+          }, 300);
+        }],
+        [1700, () => { // type over the ghosted lens: 75mm → 40mm for the wide
+          const val = $('demo-lens-val');
+          tap($('demo-lens')); flash($('demo-lens'), 1300);
+          setTimeout(() => {
+            val.classList.remove('dt-ghost');
+            typeInto(val, '40mm');
+            setTimeout(() => $('demo-lens-sub').classList.remove('dt-ghost'), 500);
+          }, 350);
+        }],
+        [2300, () => { // build the filter stack
+          tap($('demo-filters')); flash($('demo-filters'), 1100);
+          setTimeout(() => addChip('ND.6'), 350);
+          setTimeout(() => addChip('POLA'), 750);
+        }],
+        [2100, () => { // Smart Fill: the wand commits every ghosted carry-over
+          const wand = $('demo-wand');
+          tap(wand.parentElement);
+          wand.classList.add('zap');
+          setTimeout(() => wand.classList.remove('zap'), 800);
+          setTimeout(() => {
+            document.querySelectorAll('#demo-body .dt-ghost').forEach((el, i) => {
+              setTimeout(() => el.classList.remove('dt-ghost'), i * 110);
+            });
+            const toast = $('demo-toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2100);
+          }, 400);
+        }],
+        [2400, () => { // log the first two takes
+          const btn = $('demo-add');
+          tap(btn); btn.classList.add('active');
+          setTimeout(() => { btn.classList.remove('active'); addTake(1); }, 300);
+          setTimeout(() => { tap(btn); btn.classList.add('active'); }, 900);
+          setTimeout(() => { btn.classList.remove('active'); addTake(2); }, 1200);
+        }],
+        [1700, () => { // label take 2 with the TAILS preset (tapped, not typed)
+          const row = $('demo-takes').children[1];
+          const label = row.querySelector('.demo-take-label');
+          tap(label);
+          setTimeout(() => {
+            label.classList.remove('ghost');
+            label.classList.add('pop');
+            label.textContent = 'TAILS';
+          }, 300);
+        }],
+        [1900, () => { // add take 3
+          const btn = $('demo-add');
+          tap(btn); btn.classList.add('active');
+          setTimeout(() => { btn.classList.remove('active'); addTake(3); }, 300);
+        }],
+        [1500, () => { // switch to circle mode
+          const btn = $('demo-mode-circle');
+          tap(btn);
+          setTimeout(() => {
+            $('demo-mode-edit').classList.remove('active');
+            btn.classList.add('active');
+            const circles = $('demo-circles');
+            circles.innerHTML = '';
+            $('demo-takes').querySelectorAll('.demo-take').forEach((row, i) => {
+              const c = document.createElement('span');
+              c.className = 'demo-circle';
+              c.textContent = i + 1;
+              circles.appendChild(c);
+            });
+            $('demo-takes').style.display = 'none';
+            circles.classList.add('show');
+          }, 300);
+        }],
+        [1400, () => { // circle take 3 — that's the print
+          const c = $('demo-circles').lastElementChild;
+          if (c) { tap(c); setTimeout(() => c.classList.add('circled'), 250); }
+        }],
+        [2600, () => { // fade down, re-ghost the scene, go again
+          const body = $('demo-body');
+          body.classList.add('resetting');
+          $('demo-toast').classList.remove('show');
+          setTimeout(() => {
+            const scene = $('demo-scene-val');
+            scene.textContent = '401C';
+            scene.classList.add('dt-ghost');
+            $('demo-roll-val').textContent = 'A006';
+            const lens = $('demo-lens-val');
+            lens.textContent = '75mm';
+            lens.classList.add('dt-ghost');
+            $('demo-lens-sub').classList.add('dt-ghost');
+            $('demo-stop-val').classList.add('dt-ghost');
+            $('demo-desc-val').classList.add('dt-ghost');
+            document.querySelectorAll('#demo-body .demo-row-4 .dt-val span')
+              .forEach(el => el.classList.add('dt-ghost'));
+            $('demo-chips').innerHTML = '<span class="dt-empty" id="demo-filters-empty">—</span>';
+            const takes = $('demo-takes');
+            takes.innerHTML = '';
+            takes.style.display = '';
+            $('demo-circles').classList.remove('show');
+            $('demo-mode-circle').classList.remove('active');
+            $('demo-mode-edit').classList.add('active');
+            body.classList.remove('resetting');
+          }, 400);
+        }],
+        [900, () => {}],
+      ];
+
+      let idx = 0, timer = null, running = false;
+      const queue = () => {
+        if (!running) return;
+        const [delay, fn] = steps[idx];
+        timer = setTimeout(() => { fn(); idx = (idx + 1) % steps.length; queue(); }, delay);
+      };
+      // Only animate while on screen
+      new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting && !running) { running = true; queue(); }
+          else if (!e.isIntersecting && running) { running = false; clearTimeout(timer); }
+        });
+      }, { threshold: 0.3 }).observe(app);
+    })();
+
+    // ── Hero timecode: runs at 24 fps like the real thing ──
+    (() => {
+      const tc = document.getElementById('hud-tc');
+      if (!tc || _reduceMotion) return;
+      const start = performance.now();
+      const pad = n => String(n).padStart(2, '0');
+      let last = -1;
+      const tick = now => {
+        const frames = Math.floor((now - start) / 1000 * 24);
+        if (frames !== last) {
+          last = frames;
+          const f = frames % 24;
+          const s = Math.floor(frames / 24) % 60;
+          const m = Math.floor(frames / 1440) % 60;
+          const h = Math.floor(frames / 86400) % 24;
+          tc.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(f)}`;
+        }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    })();
   </script>
 
 </body>
