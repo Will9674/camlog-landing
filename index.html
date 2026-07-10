@@ -195,7 +195,6 @@
       animation: rec-blink 1.4s steps(1) infinite;
     }
     @keyframes rec-blink { 50% { opacity: 0.15; } }
-    .hud-tc { font-variant-numeric: tabular-nums; }
 
     /* ── Hero app demo: self-playing replica of the log screen ── */
     .hero-demo {
@@ -1127,9 +1126,6 @@
       [data-reveal] .rv, [data-reveal] .wbar, [data-reveal] .pro-price {
         opacity: 1; transform: none;
       }
-      /* A frozen timecode reads like a stopped clock — hide it, leaving REC
-         anchored top-left. */
-      .hud-tc { display: none; }
     }
   </style>
 </head>
@@ -1151,10 +1147,9 @@
   <!-- ── Hero ─────────────────────────────────────────────── -->
   <div class="hero">
 
-    <!-- Viewfinder HUD: blinking REC + running 24fps timecode -->
+    <!-- Viewfinder HUD: blinking REC badge -->
     <div class="hero-hud" aria-hidden="true">
       <span class="hud-rec"><span class="rec-dot"></span>REC</span>
-      <span class="hud-tc" id="hud-tc">00:00:00:00</span>
     </div>
 
     <!-- Film strip icon, same one from the app's empty state — now running -->
@@ -2253,29 +2248,6 @@
       }, { threshold: 0.3 }).observe(app);
     })();
 
-    // ── Hero timecode: runs at 24 fps like the real thing ──
-    (() => {
-      const tc = document.getElementById('hud-tc');
-      if (!tc) return;
-      // Reduced motion: show a plausible static timecode instead of a frozen 00:00:00:00
-      if (_reduceMotion) { tc.textContent = '00:14:22:09'; return; }
-      const start = performance.now();
-      const pad = n => String(n).padStart(2, '0');
-      let last = -1;
-      const tick = now => {
-        const frames = Math.floor((now - start) / 1000 * 24);
-        if (frames !== last) {
-          last = frames;
-          const f = frames % 24;
-          const s = Math.floor(frames / 24) % 60;
-          const m = Math.floor(frames / 1440) % 60;
-          const h = Math.floor(frames / 86400) % 24;
-          tc.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(f)}`;
-        }
-        requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    })();
   </script>
 
 </body>
