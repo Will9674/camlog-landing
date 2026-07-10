@@ -2047,7 +2047,7 @@
     // ── Hero app demo: scripted loop of a 2nd AC's log flow ──
     (() => {
       const app = document.getElementById('demo-app');
-      if (!app || _reduceMotion) return;
+      if (!app) return;
 
       const $ = id => document.getElementById(id);
       const tap = el => {
@@ -2092,6 +2092,20 @@
         $('demo-takes').appendChild(row);
         return row;
       };
+
+      // Reduced motion: skip the loop, show a completed scene as a still
+      if (_reduceMotion) {
+        document.querySelectorAll('#demo-body .dt-ghost').forEach(el => el.classList.remove('dt-ghost'));
+        $('demo-scene-val').textContent = '401D';
+        $('demo-roll-val').textContent = 'A007';
+        $('demo-lens-val').textContent = '40mm';
+        addChip('ND.6');
+        addChip('POLA');
+        addTake(1);
+        addTake(2, 'TAILS');
+        addTake(3);
+        return;
+      }
 
       const steps = [
         [1300, () => { // letter the scene up: ghost 401C → 401D
@@ -2232,7 +2246,9 @@
     // ── Hero timecode: runs at 24 fps like the real thing ──
     (() => {
       const tc = document.getElementById('hud-tc');
-      if (!tc || _reduceMotion) return;
+      if (!tc) return;
+      // Reduced motion: show a plausible static timecode instead of a frozen 00:00:00:00
+      if (_reduceMotion) { tc.textContent = '00:14:22:09'; return; }
       const start = performance.now();
       const pad = n => String(n).padStart(2, '0');
       let last = -1;
