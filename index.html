@@ -176,6 +176,17 @@
 
     @media (max-width: 500px) {
       .nav-link { display: none; }
+      /* One survivor. Features, Pro, Wrapped and FAQ are anchors into this same
+         page, so a phone reaches them by scrolling; Tips is the only nav item
+         that leaves it, which makes it the only one hiding actually strands.
+         Given a pill of its own so it reads as a destination rather than as
+         stray text beside the wordmark. */
+      .nav-link-persist {
+        display: inline-flex;
+        color: var(--text);
+        background: var(--surface2);
+        padding: 7px 14px;
+      }
     }
 
     /* ── Shared layout ──────────────────────────────────── */
@@ -1214,7 +1225,7 @@
       <a href="#features" class="nav-link">Features</a>
       <a href="#pro"      class="nav-link">Pro</a>
       <a href="#wrapped"  class="nav-link">Wrapped</a>
-      <a href="/tips"     class="nav-link">Tips</a>
+      <a href="/tips"     class="nav-link nav-link-persist">Tips</a>
       <a href="#faq"      class="nav-link">FAQ</a>
     </div>
   </nav>
