@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Camera Log App with Reports | CamLog</title>
-  <meta name="description" content="CamLog is a free camera log app for film crews. Log scenes, takes, and camera notes on set, then export a clean PDF camera report. Team sync is $8 one-time per project. Everyone else joins free.">
+  <meta name="description" content="CamLog is a free camera log app for film crews. Log scenes, takes, and camera notes on set, then export a clean PDF camera report. Team sync from $8 one-time per project. Everyone else joins free.">
   <link rel="canonical" href="https://camlog.app/">
   <meta property="og:title" content="Free Camera Log App with Reports | CamLog">
-  <meta property="og:description" content="Free camera log and notes app for film crews. Log scenes and takes, export PDF camera reports. Team sync is $8 one-time per project. Everyone else joins free.">
+  <meta property="og:description" content="Free camera log and notes app for film crews. Log scenes and takes, export PDF camera reports. Team sync from $8 one-time per project. Everyone else joins free.">
   <meta property="og:url" content="https://camlog.app">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://camlog.app/og.png?v=2">
@@ -38,7 +38,14 @@
         "name": "Pro (per project)",
         "price": "8",
         "priceCurrency": "USD",
-        "description": "One-time payment per project for live multi-user sync. All collaborators join free."
+        "description": "One-time payment per project for live multi-user sync, up to 5 people. Collaborators join free."
+      },
+      {
+        "@type": "Offer",
+        "name": "Unlimited (per project)",
+        "price": "49",
+        "priceCurrency": "USD",
+        "description": "One-time payment per project for live multi-user sync with any number of people. Collaborators join free."
       }
     ]
   }
@@ -56,12 +63,12 @@
       {
         "@type": "Question",
         "name": "How is this different from other camera log apps?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most camera log apps run on a monthly per-user subscription: six people on the camera team means six subscriptions, every month. CamLog takes a different approach. One flat $8 per project, paid once by the admin, and everyone else joins free." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Most camera log apps run on a monthly per-user subscription: six people on the camera team means six subscriptions, every month. CamLog takes a different approach. One flat price per project, paid once: $8 for up to 5 people, or $49 for any size crew. Everyone else joins free." }
       },
       {
         "@type": "Question",
         "name": "So my whole department joins for free?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Exactly. On a Pro project the admin pays the single $8 and invites everyone by QR code or link. Your 2nd ACs, loader, and script supervisor join free. No accounts to buy, no per-seat fee, no subscription of their own." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Exactly. One person pays once, $8 for up to 5 people or $49 for any size crew, and invites everyone by QR code or link. Your 2nd ACs, loader, and script supervisor join free. No accounts to buy, no per-seat fee, no subscription of their own." }
       },
       {
         "@type": "Question",
@@ -773,6 +780,9 @@
       margin-top: 6px;
       line-height: 1.15;
     }
+    /* Unlimited sits under Pro, smaller, so $8 stays the headline number. */
+    .pro-price-alt { font-size: 34px; letter-spacing: -1px; margin-top: 18px; }
+    .pro-price-alt sup { font-size: 16px; }
 
     .pro-perks {
       list-style: none;
@@ -1285,7 +1295,7 @@
 
     <div class="hero-wordmark">Cam<em>Log</em></div>
     <h1 class="hero-tag" style="font-weight:500;margin-bottom:12px;text-wrap:balance;color:var(--text)">The <span style="color:var(--accent)">free</span> camera log app for fast, clean reports.</h1>
-    <p class="hero-tag" style="font-size:14px;opacity:0.75;margin-bottom:36px;text-wrap:balance">Free for solo use. Team sync is $8 one-time per project, and everyone else joins free.</p>
+    <p class="hero-tag" style="font-size:14px;opacity:0.75;margin-bottom:36px;text-wrap:balance">Free for solo use. Team sync from $8 once per project. Everyone else joins free.</p>
 
     <div class="hero-ctas">
       <a href="https://app.camlog.app" class="btn-primary" style="padding: 14px 36px; font-size: 16px;" target="_blank" rel="noopener">
@@ -1468,7 +1478,7 @@
           <p>CamLog was <strong>built by a camera assistant</strong> tired of paying monthly subscription fees for a single-day commercial or on downtime between productions.</p>
           <p>Other camera log apps are priced for one user on a monthly subscription. If your whole department wants access, that's a monthly bill multiplied by every team member that needs it.</p>
           <p>CamLog has <strong>no per-user pricing</strong> and no paywalled features for single-user projects. It's a web app that opens on <strong>any phone or laptop the moment you share the link.</strong></p>
-          <p>When you need the whole team included in real time, upgrade to CamLog Pro. <strong>Only the project admin pays.</strong></p>
+          <p>When you need the whole team included in real time, upgrade the project. <strong>One person pays, once.</strong></p>
         </div>
       </div>
 
@@ -1517,7 +1527,7 @@
               <span class="perk-check">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
-              <span><strong>Everyone joins free.</strong> Only the project admin pays</span>
+              <span><strong>Everyone joins free.</strong> One person pays</span>
             </li>
             <li class="rv" style="--d:0.32s">
               <span class="perk-check">
@@ -1542,7 +1552,9 @@
 
         <div class="pro-price-block">
           <div class="pro-price"><sup>$</sup>8</div>
-          <div class="pro-price-label rv" style="--d:0.45s">per project<br>one&#8209;time</div>
+          <div class="pro-price-label rv" style="--d:0.45s">up to 5 people<br>one&#8209;time</div>
+          <div class="pro-price pro-price-alt rv" style="--d:0.5s"><sup>$</sup>49</div>
+          <div class="pro-price-label rv" style="--d:0.55s">Unlimited, any size crew<br>one&#8209;time</div>
         </div>
       </div>
 
@@ -1551,12 +1563,25 @@
           <div class="compare-label">CamLog Pro</div>
           <div class="compare-price">$8</div>
           <div style="font-size:12px;color:var(--text2);margin:-4px 0 8px;">per project, one time</div>
-          <div class="compare-desc">Admin pays once. 3 × 2nd ACs, Loader, Script Supervisor join free.</div>
+          <div class="compare-desc">Admin plus 2 × 2nd ACs, Loader and Script Supervisor.</div>
         </div>
         <div class="compare-card rv" style="--d:0.58s">
           <div class="compare-label">Other Log Apps</div>
-          <div class="compare-price">$29.94 <span>/ mo</span></div>
-          <div class="compare-desc">Same 6 crew members × $4.99/mo each.</div>
+          <div class="compare-price">$24.95 <span>/ mo</span></div>
+          <div class="compare-desc">Same 5 crew members × $4.99/mo each.</div>
+        </div>
+      </div>
+      <div class="pro-compare" style="margin-top:12px">
+        <div class="compare-card ours rv" style="--d:0.62s">
+          <div class="compare-label">CamLog Unlimited</div>
+          <div class="compare-price">$49</div>
+          <div style="font-size:12px;color:var(--text2);margin:-4px 0 8px;">per project, one time</div>
+          <div class="compare-desc">A 12-person feature crew, for the whole shoot.</div>
+        </div>
+        <div class="compare-card rv" style="--d:0.70s">
+          <div class="compare-label">Other Log Apps</div>
+          <div class="compare-price">$179.64</div>
+          <div class="compare-desc">12 crew members × $4.99/mo each, for a 3-month shoot.</div>
         </div>
       </div>
 
@@ -1675,7 +1700,7 @@
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
-          Most camera log apps run on a <strong>monthly per-user subscription</strong>: six people on the camera team means six subscriptions, every month, whether you shot one day or thirty. CamLog takes a different approach. <span class="accent">One flat $8 per project, paid once by the admin</span>, and everyone else joins free. Nobody else pays a cent.
+          Most camera log apps run on a <strong>monthly per-user subscription</strong>: six people on the camera team means six subscriptions, every month, whether you shot one day or thirty. CamLog takes a different approach. <span class="accent">One flat price per project, paid once</span>: $8 for up to 5 people, or $49 for any size crew. Nobody else pays a cent.
         </div></div></div>
       </div>
 
@@ -1685,7 +1710,7 @@
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
-          Exactly. On a Pro project the admin pays the single $8 and invites everyone by QR code or link. Your 2nd ACs, loader, and script supervisor <strong>join free</strong>. No accounts to buy, no per-seat fee, no subscription of their own.
+          Exactly. One person pays once, $8 for up to 5 people or $49 for any size crew, and invites everyone by QR code or link. Your 2nd ACs, loader, and script supervisor <strong>join free</strong>. No accounts to buy, no per-seat fee, no subscription of their own.
         </div></div></div>
       </div>
 
