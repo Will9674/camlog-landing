@@ -759,7 +759,20 @@
       text-align: right;
       flex-shrink: 0;
     }
-    @media (max-width: 560px) { .pro-price-block { text-align: left; } }
+    /* Once the layout is one column, $8 and $49 sit side by side, each over
+       its own label (the markup is flat: price, label, price, label). */
+    @media (max-width: 560px) {
+      .pro-price-block {
+        text-align: left;
+        display: grid;
+        grid-template-rows: auto auto;
+        grid-auto-flow: column;
+        justify-content: start;
+        align-items: end;
+        column-gap: 36px;
+      }
+      .pro-price-block .pro-price-alt { margin-top: 0; }
+    }
 
     .pro-price {
       font-size: 52px;
@@ -780,9 +793,9 @@
       margin-top: 6px;
       line-height: 1.15;
     }
-    /* Unlimited sits under Pro, smaller, so $8 stays the headline number. */
-    .pro-price-alt { font-size: 34px; letter-spacing: -1px; margin-top: 18px; }
-    .pro-price-alt sup { font-size: 16px; }
+    /* Unlimited is the same size as Pro: both are real choices, and a smaller
+       $49 read as an afterthought. */
+    .pro-price-alt { margin-top: 18px; }
 
     .pro-perks {
       list-style: none;
@@ -815,7 +828,6 @@
       gap: 12px;
       margin-top: 32px;
     }
-    @media (max-width: 440px) { .pro-compare { grid-template-columns: 1fr; } }
 
     .compare-card {
       background: var(--surface2);
@@ -847,6 +859,18 @@
       font-size: 12px;
       color: var(--text2);
       line-height: 1.45;
+    }
+
+    /* Phones keep CamLog and the other apps side by side: the comparison is
+       the point, and stacked it read as four unrelated cards. Kept after the
+       base rules above so it wins. */
+    @media (max-width: 440px) {
+      .pro-card { padding: 28px 14px; }
+      .pro-compare { gap: 6px; }
+      /* Narrow enough that "Admin, 2 × 2nd ACs," holds one line at 375px. */
+      .compare-card { padding: 14px 10px; }
+      .compare-label { font-size: 10px; letter-spacing: 0.5px; }
+      .compare-price { font-size: 20px; }
     }
 
     /* ── Wrapped divider ───────────────────────────────── */
@@ -1563,7 +1587,7 @@
           <div class="compare-label">CamLog Pro</div>
           <div class="compare-price">$8</div>
           <div style="font-size:12px;color:var(--text2);margin:-4px 0 8px;">per project, one time</div>
-          <div class="compare-desc">Admin plus 2 × 2nd ACs, Loader and Script Supervisor.</div>
+          <div class="compare-desc">Admin, 2 × 2nd ACs, Loader and Script Supervisor.</div>
         </div>
         <div class="compare-card rv" style="--d:0.58s">
           <div class="compare-label">Other Log Apps</div>
