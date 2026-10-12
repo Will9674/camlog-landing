@@ -334,6 +334,97 @@
       .demo-band-text { padding-top: 0; }
       .demo-band-text .section-body { margin-left: auto; margin-right: auto; }
     }
+
+    /* Desktop top, after filmcounter.app: big headline, lede, two buttons and
+       the pricing line on the left; the demo in a phone frame on the right.
+       display:contents lifts the hero's and demo band's children into one
+       .top grid, so the phone markup and layout stay exactly as they were.
+       Above the headline, the REC badge and film strip sit left of the
+       wordmark as one lockup. */
+    .hero-ctas .hero-ghost { display: none; }
+    @media (min-width: 960px) {
+      .top {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        /* Spare height goes to the outer rows, so the copy stays a tight,
+           vertically centred block beside the taller demo. */
+        grid-template-rows: 1fr auto auto auto auto auto 1fr;
+        column-gap: 72px;
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 80px 40px 96px;
+      }
+      .top .hero, .top .demo-band, .top .demo-band-inner, .top .demo-band-text { display: contents; }
+      .top .demo-band-text .section-title { display: none; }
+      .top .hero-lockup {
+        grid-column: 1; grid-row: 2;
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: start;
+        align-items: center;
+        column-gap: clamp(18px, 2vw, 28px);
+        margin-bottom: 30px;
+      }
+      .top .hero-hud { grid-column: 1; grid-row: 1; margin: 0 0 10px; max-width: none; }
+      .top .hero-film { grid-column: 1; grid-row: 2; margin: 0; }
+      .top .hero-film svg { width: clamp(96px, 9vw, 130px); height: auto; }
+      .top .hero-wordmark {
+        grid-column: 2; grid-row: 1 / 3;
+        font-size: clamp(72px, 7vw, 104px);
+        margin: 0;
+      }
+      .top h1.hero-tag {
+        grid-column: 1; grid-row: 3;
+        text-align: left;
+        font-size: clamp(34px, 3.4vw, 46px);
+        font-weight: 650 !important;
+        line-height: 1.14;
+        letter-spacing: -0.025em;
+        max-width: 13em;
+        margin: 0 !important;
+      }
+      .top .demo-band-text .section-body {
+        grid-column: 1; grid-row: 4;
+        text-align: left;
+        font-size: 20px;
+        line-height: 1.55;
+        max-width: 31em;
+        margin: 26px 0 36px;
+      }
+      .top .hero-ctas { grid-column: 1; grid-row: 5; justify-content: flex-start; flex-wrap: nowrap; }
+      .top .hero-ctas a {
+        height: 56px;
+        padding: 0 30px !important;
+        font-size: 18px !important;
+        font-weight: 600;
+        border-radius: 12px;
+      }
+      .top .hero-ghost { display: inline-flex; background: var(--surface2); border-color: transparent; }
+      .top p.hero-tag {
+        grid-column: 1; grid-row: 6; align-self: start;
+        text-align: left;
+        font-size: 17px !important;
+        color: var(--text);
+        opacity: 1 !important;
+        margin: 22px 0 0 !important;
+      }
+      .top .hero-demo {
+        grid-column: 2; grid-row: 1 / -1;
+        align-self: center;
+        zoom: 1.08;
+        /* Reserve the demo's tallest state: it grows as takes are added,
+           and the sections below shouldn't move each loop. */
+        min-height: 575px;
+        animation: rise 0.7s ease 0.40s both;
+      }
+      .top .demo-app {
+        border: 11px solid #000;
+        border-radius: 44px;
+        box-shadow: 0 0 0 1.5px rgba(255,255,255,0.14), 0 30px 80px rgba(0,0,0,0.55), 0 4px 18px rgba(0,0,0,0.4);
+      }
+      /* The band's scroll reveal can't fire on a display:contents box. */
+      .top [data-reveal] .rv { opacity: 1; transform: none; }
+    }
     .demo-app {
       position: relative;
       background: var(--bg);
@@ -1271,8 +1362,16 @@
   </nav>
 
 
+  <!-- ── Top: hero + demo band. One grid on desktop (copy left, demo right);
+       on phones .top is a plain block, so they stack as before. ── -->
+  <div class="top">
+
   <!-- ── Hero ─────────────────────────────────────────────── -->
   <div class="hero">
+
+    <!-- Lockup: REC + film strip + wordmark. A plain block on phones (stacked,
+         as before); a row on desktop, strip to the left of the wordmark. -->
+    <div class="hero-lockup">
 
     <!-- Viewfinder HUD: blinking REC badge -->
     <div class="hero-hud" aria-hidden="true">
@@ -1324,6 +1423,7 @@
     </div>
 
     <div class="hero-wordmark">Cam<em>Log</em></div>
+    </div>
     <h1 class="hero-tag" style="font-weight:500;margin-bottom:12px;text-wrap:balance;color:var(--text)">The <span style="color:var(--accent)">free</span> camera log app for fast, clean reports.</h1>
     <p class="hero-tag" style="font-size:14px;opacity:0.75;margin-bottom:36px;text-wrap:balance">Free for solo use. Team sync from $8 once per project. Everyone else joins free.</p>
 
@@ -1335,6 +1435,7 @@
           <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
         </svg>
       </a>
+      <a href="#features" class="btn-ghost hero-ghost">See features</a>
     </div>
 
   </div>
@@ -1436,6 +1537,8 @@
       </div>
     </div>
   </div>
+
+  </div><!-- /.top -->
 
 
   <!-- ── Features ─────────────────────────────────────────── -->
