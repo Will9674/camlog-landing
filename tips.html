@@ -301,10 +301,11 @@
       <div class="toc">
         <a href="#install">Install it first</a>
         <a href="#offline">Offline &amp; sync</a>
-        <a href="#cache">Clearing your browser</a>
+        <a href="#settings">Settings</a>
+        <a href="#logging">Faster logging</a>
         <a href="#gestures">Gestures</a>
         <a href="#recovery">Recovery mode</a>
-        <a href="#logging">Faster logging</a>
+        <a href="#cache">Clearing your browser</a>
         <a href="#team">Working with a crew</a>
         <a href="#export">Getting data out</a>
       </div>
@@ -318,8 +319,8 @@
     <section id="install">
       <h2>1. Install it before your first day</h2>
       <p class="sec-sub">
-        CamLog is a web app, not an App Store download. It runs in a browser tab, but functions best when it is installed as an app
-        on your home screen.
+        CamLog is a web app, not an App Store download. It works best installed on
+        your home screen.
       </p>
 
       <div class="tips">
@@ -328,15 +329,13 @@
           <p>
             <strong>iPhone / iPad:</strong> open <strong>app.camlog.app</strong> in
             <strong>Safari</strong>, tap the Share button
-            <svg class="ui-icon" viewBox="0 0 24 24" role="img" aria-label="the iOS Share icon"><path d="M12 3v12"/><path d="M8.5 6.5 12 3l3.5 3.5"/><path d="M8 10H6.5A2.5 2.5 0 0 0 4 12.5v6A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-6A2.5 2.5 0 0 0 17.5 10H16"/></svg>, then tap
-            <strong>Add to Home Screen</strong>. Chrome and Firefox on iOS can't do
-             this. It has to be Safari.
+            <svg class="ui-icon" viewBox="0 0 24 24" role="img" aria-label="the iOS Share icon"><path d="M12 3v12"/><path d="M8.5 6.5 12 3l3.5 3.5"/><path d="M8 10H6.5A2.5 2.5 0 0 0 4 12.5v6A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-6A2.5 2.5 0 0 0 17.5 10H16"/></svg>, then
+            <strong>Add to Home Screen</strong>. It has to be Safari.
           </p>
           <p>
             <strong>Android:</strong> open <strong>app.camlog.app</strong> in
-            <strong>Chrome</strong>, tap the menu (⋮), then tap
-            <strong>Add to Home Screen</strong> or <strong>Install
-            app</strong>.
+            <strong>Chrome</strong>, tap the menu (⋮), then <strong>Add to Home
+            Screen</strong> or <strong>Install app</strong>.
           </p>
           <p>
             <strong>Desktop:</strong> Chrome or Edge show an install icon in the
@@ -347,37 +346,29 @@
         <div class="tip">
           <h3>Why installing matters</h3>
           <p>
-            An installed CamLog launches full screen with no address bar, and is far
-            better protected from the browser housekeeping described
-            <a href="#cache" style="color:var(--accent)">below</a>. Phone browsers
-            clear the local data of sites you only visit occasionally; an installed app is treated as an app, not as just a stale tab open in a
-            browser.
-          </p>
-          <p>
-            On iPhone and iPad it goes further: the installed app gets storage of its
-            own, separate from Safari's. That's why you sign in again after installing,
-            and why clearing Safari leaves it alone.
-            <strong>Deleting the home-screen icon deletes that storage with it</strong>,
-            so don't remove and re-add the icon to fix something. Sync first if you do.
+            An installed CamLog opens full screen and is protected from browsers
+            clearing data for sites you rarely visit
+            (<a href="#cache" style="color:var(--accent)">more below</a>). On iPhone
+            and iPad it also gets its own storage, separate from Safari, so you'll
+            sign in again after installing.
+            <strong>Deleting the icon deletes that storage</strong>, so sync first.
           </p>
         </div>
 
         <div class="tip">
           <h3>Sign in once while you have signal</h3>
           <p>
-            Creating your account and the very first load need a connection. After that, CamLog opens and works with no service at all. Do this at
-            the hotel, not at the location.
+            Signing in and the first load need a connection. After that, CamLog works
+            with no service. Do it at the hotel, not on location.
           </p>
         </div>
 
         <div class="tip">
           <h3>There are no updates to install</h3>
           <p>
-            New versions are automatically pushed to your phone whenever you have
-            connection. When a new version has arrived you'll see a small banner.
-            Tap it, or tap the <span class="chip chip-blue">Synced</span> pill, and
-            the app reloads onto the new version, no connection required. The version number is at
-            the bottom of the projects screen if you ever need to report a bug.
+            New versions download on their own. When one arrives, tap the banner or
+            the <span class="chip chip-blue">Synced</span> pill to switch to it. The
+            version number is at the bottom of the projects screen.
           </p>
         </div>
       </div>
@@ -389,214 +380,79 @@
     <section id="offline">
       <h2>2. Offline is the normal case, not the emergency</h2>
       <p class="sec-sub">
-        CamLog was built for stages with no bars. Everything you type is saved locally
-        before it's synced to the cloud.
+        Everything saves to your phone first and syncs whenever there's signal.
       </p>
 
       <div class="tips">
         <div class="tip">
-          <h3>Every keystroke saves to the phone first</h3>
+          <h3>There's no Save button</h3>
           <p>
-            There is no Save button, and there is no spinner to wait out. What you
-            type is written to the device immediately, and a background process
-            pushes it to the server whenever a connection exists. Losing signal
-            mid-take changes nothing about how the app behaves.
+            Every keystroke is saved to the phone as you type. Losing signal mid-take
+            changes nothing.
           </p>
         </div>
 
         <div class="tip">
           <h3>Read the sync pill</h3>
-          <p>The small pill at the bottom of the screen tells you exactly where your work stands:</p>
           <ul>
-            <li><span class="chip chip-blue">Synced</span>: everything on this device is also on the server. Tap it to refresh the page and pick up any new app version.</li>
-            <li><span class="chip chip-blue">Syncing</span>: changes are on their way up right now.</li>
-            <li><span class="chip chip-grey">Offline</span>: no connection. Keep logging; it's all saved locally and goes up on its own.</li>
+            <li><span class="chip chip-blue">Synced</span>: everything on this phone is on the server.</li>
+            <li><span class="chip chip-blue">Syncing</span>: changes are going up now.</li>
+            <li><span class="chip chip-grey">Offline</span>: no connection. Keep logging; it uploads on its own.</li>
           </ul>
         </div>
 
         <div class="tip">
-          <h3>Give it a minute of signal before you wrap</h3>
+          <h3>Wait for Synced before you wrap</h3>
           <p>
-            The one habit worth building: at the end of the day, once you're back in
-            coverage, open CamLog and wait for the pill to read
-            <span class="chip chip-blue">Synced</span>. That's your confirmation the day is fully uploaded to the server.
+            Once you're back in coverage, open CamLog and wait for
+            <span class="chip chip-blue">Synced</span>. That means the day is uploaded.
           </p>
         </div>
 
         <div class="tip">
           <h3>Don't sign out with work still pending</h3>
           <p>
-            Signing out clears the local copy on that device. If anything hasn't
-            synced yet, CamLog will stop and tell you how many changes are at risk.
-             <strong>Read that dialog</strong> rather than tapping through it. Wait for the
-            <span class="chip chip-blue">Synced</span> pill, then sign out.
+            Signing out clears this phone's copy. If anything hasn't synced, CamLog
+            tells you how many changes are at risk. Wait for
+            <span class="chip chip-blue">Synced</span> first.
           </p>
         </div>
       </div>
     </section>
   </div>
 
-  <!-- ── Cache ────────────────────────────────────────────── -->
+  <!-- ── Settings ─────────────────────────────────────────── -->
   <div class="wrap">
-    <section id="cache">
-      <h2>3. About clearing your browser</h2>
-
-      <div class="callout">
-        <h3>Short version: your synced work is safe. Only unsynced work is at risk.</h3>
-        <p>
-          Everything you log goes up to the server as soon as you have a connection,
-          on every project, free or paid. When your phone is offline the data
-          you enter is saved locally. When browser data is cleared, you are deleting
-          that locally saved data. Once signed back in, all project data saved to the
-          cloud returns, but <strong>data that was only saved locally will not</strong>.
-        </p>
-        <div class="rules-wrap">
-          <table class="rules">
-            <thead>
-              <tr>
-                <th scope="col">If you&hellip;</th>
-                <th scope="col">iPhone or iPad, installed</th>
-                <th scope="col">Android installed, or any browser tab</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Clear your browsing history</th>
-                <td><span class="ok">Nothing happens</span></td>
-                <td>When you select &ldquo;Delete browsing data&rdquo;, Chrome's default option <span class="warn">deletes cookies and site data along with your browsing history</span>. Only &ldquo;More options&rdquo; allows you to separate them and exclude CamLog data.</td>
-              </tr>
-              <tr>
-                <th scope="row">Clear website data / cookies and site data</th>
-                <td><span class="ok">Nothing happens.</span> An installed app keeps its own storage, which Safari's clear doesn't reach.</td>
-                <td><span class="warn">Wipes it.</span> Cookies and site data is where your local CamLog data is stored. Deleting it signs you out and purges the app's offline files along with <span class="warn">any work that hadn't yet reached the server. That work can't be recovered</span>. Everything already synced comes back when you sign in again with a connection.</td>
-              </tr>
-              <tr>
-                <th scope="row">Delete the app icon</th>
-                <td><span class="warn">Everything on the phone goes.</span></td>
-                <td><span class="warn">Everything on the phone goes.</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p>Two helpful habits:</p>
-        <ol>
-          <li><strong>Install CamLog to your home screen.</strong> This gets rid of automatic cache clearing and treats CamLog data as belonging to a dedicated app, not just a stale tab.</li>
-          <li><strong>Never clear browsing data or delete the app while you're out of signal.</strong> Check that the pill says <span class="chip chip-blue">Synced</span> first. That's the whole safety check. You'll find it bottom-left on your productions and cameras lists; it's hidden while you're logging to keep the screen clear. On Android in particular, treat &ldquo;delete browsing data&rdquo; as deleting CamLog from that phone.</li>
-        </ol>
-      </div>
-    </section>
-  </div>
-
-  <!-- ── Gestures ─────────────────────────────────────────── -->
-  <div class="wrap">
-    <section id="gestures">
-      <h2>4. A few hidden gestures</h2>
+    <section id="settings">
+      <h2>3. Set up the production</h2>
       <p class="sec-sub">
-        Some actions are gestures rather than buttons to keep the log screen clear.
-      </p>
-
-      <div class="tips grid2">
-        <div class="tip">
-          <h3>Deleting takes: the trash button</h3>
-          <p>
-            Above the take list sit three small buttons: a pencil, a circle, and
-            a trash can. The trash can switches the list into delete mode: every
-            take gets an <strong>&times;</strong> on the right, and the fields go
-            read-only. Tap an <strong>&times;</strong>, confirm, and that take is
-            deleted. Tap
-            the pencil to go back to editing.
-          </p>
-        </div>
-
-        <div class="tip">
-          <h3>Or swipe a take to the left</h3>
-          <p>
-            If you'd rather not switch modes, drag a take row to the left and the same
-            <strong>Delete</strong> confirmation screen appears. It's a shortcut for
-            people who like gestures.
-          </p>
-        </div>
-
-        <div class="tip">
-          <h3>Tap the &times; to delete a scene</h3>
-          <p>
-            Every scene card has an <strong>&times;</strong> in its bottom right
-            corner. Tap it, confirm, and the scene is removed. You then get a few
-            seconds to <strong>Undo</strong> before it's committed. A deleted scene
-            can be restored in Recovery mode.
-          </p>
-        </div>
-
-        <div class="tip">
-          <h3>Hold a scene to move it</h3>
-          <p>
-            Press and hold anywhere on a scene card for about half a second and it
-            lifts. The grid icon in the top right corner grabs it immediately with
-            no wait. Tapping the card opens the scene.
-          </p>
-        </div>
-
-        <div class="tip tip-wide">
-          <h3>Swipe down to dismiss a sheet</h3>
-          <p>
-            Any panel that slides up from the bottom can be swiped back down, or
-            dismissed by tapping outside it. On Android, the back gesture does the
-            same thing without leaving the app.
-          </p>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ── Recovery ─────────────────────────────────────────── -->
-  <div class="wrap">
-    <section id="recovery">
-      <h2>5. Nothing is really deleted: Recovery mode</h2>
-      <p class="sec-sub">
-        This is the single most reassuring thing to know about CamLog.
+        The gear button on the Cameras screen opens Settings. Do this before day one.
       </p>
 
       <div class="tips">
         <div class="tip">
-          <h3>Where it is</h3>
+          <h3>Fields and presets</h3>
           <p>
-            The archive icon in the header of the <strong>Productions</strong>,
-            <strong>Cameras</strong>, and <strong>Scene</strong> lists toggles
-            Recovery mode. Turn it on and everything you've deleted from that list
-            appears alongside what's live, ready to restore. Turn it off and you're
-            back to the working view.
+            Choose which fields the production logs, and add presets for lenses,
+            focal lengths, characters, filters, formats and more. Presets appear as
+            quick chips while logging, for everyone on the production.
           </p>
         </div>
 
         <div class="tip">
-          <h3>Deleting is reversible, and it stays that way</h3>
+          <h3>Admins and Editors</h3>
           <p>
-            A deleted production, camera, or scene isn't erased. It's set aside.
-            There's no countdown and no automatic purge, so a scene you removed on
-            day one is still restorable on day forty. Recovery mode works offline
-            too: the archived copies live on your device as well.
+            Admins can change everything, including removing fields and presets and
+            turning on Episode Numbers, Mag Numbers and the Base EI field. Editors can
+            add fields and presets but not remove them. Viewers don't see Settings.
           </p>
         </div>
 
         <div class="tip">
-          <h3>Hide vs. Delete on a shared production</h3>
+          <h3>One setting is just yours</h3>
           <p>
-            <strong>Hide Production</strong> removes a show from <em>your</em> list
-            only. It's the right move for a job that wrapped and is cluttering your screen. It's also
-            reversible from Recovery mode.
-          </p>
-          <p>
-            <strong>Leave Production</strong> is different: it gives up your access,
-            and you'd need a fresh invite to get back in.
-          </p>
-        </div>
-
-        <div class="tip">
-          <h3>A camera must be empty before it can go</h3>
-          <p>
-            You can't delete a camera that still has active scenes on it. Delete or
-            move the scenes first. It's a guardrail against wiping a day's work with
-            one tap, and the camera stays restorable afterwards either way.
+            <strong>Focus/Height Full Keyboard</strong> changes only your phone, not
+            the crew's.
           </p>
         </div>
       </div>
@@ -606,7 +462,7 @@
   <!-- ── Logging ──────────────────────────────────────────── -->
   <div class="wrap">
     <section id="logging">
-      <h2>6. Logging faster</h2>
+      <h2>4. Logging faster</h2>
       <p class="sec-sub">
         The parts that pay off once you're moving at set speed.
       </p>
@@ -615,12 +471,10 @@
         <div class="tip">
           <h3>Smart Fill, twice</h3>
           <p>
-            The wand button copies from your last scene in two stages. The first tap
-            fills the settings that rarely change between setups: stop, ISO, fps,
-            shutter, color temp, filters, format. Tap it again and it fills
-            everything else, scene number included. It only ever writes into empty
-            fields, and an <strong>Undo</strong> appears for a few seconds after
-            each tap.
+            The wand copies from your last scene. The first tap fills what rarely
+            changes: stop, ISO, fps, shutter, color temp, filters, format. The second
+            fills the rest. It only fills empty fields, and
+            <strong>Undo</strong> appears after each tap.
           </p>
         </div>
 
@@ -644,28 +498,24 @@
         <div class="tip">
           <h3>Film cameras get a dial column</h3>
           <p>
-            On a camera marked as film, each take row gains a footage-dial field, and
-            CamLog shows the <strong>difference</strong> from the previous take next
-            to it. Log the raw dial reading and let it do the subtraction.
+            On a film camera, each take gets a dial field, and CamLog shows the
+            <strong>difference</strong> from the previous take.
           </p>
         </div>
 
         <div class="tip">
-          <h3>Two takes with the same number is a flag, not a bug</h3>
+          <h3>A highlighted duplicate take is a flag</h3>
           <p>
-            If a duplicate take number appears highlighted, it usually means two
-            people edited the same scene while one was offline and both entries
-            survived. CamLog flags it rather than silently merging, because only the
-            person holding the camera report should decide which is right.
+            It usually means two people edited the same scene while one was offline.
+            CamLog flags it rather than guessing which is right.
           </p>
         </div>
 
         <div class="tip">
-          <h3>Opening an old scene warns you first</h3>
+          <h3>Old scenes ask first</h3>
           <p>
-            Come back to a scene that's been untouched for a while and CamLog asks
-            before letting you type. It's there to stop the classic mistake of
-            logging a new setup into yesterday's scene.
+            Open a scene that hasn't been touched in a while and CamLog asks before
+            you type, so a new setup doesn't land in yesterday's scene.
           </p>
         </div>
 
@@ -680,9 +530,8 @@
         <div class="tip">
           <h3>Search and roll grouping</h3>
           <p>
-            Long scene lists have a search that can be narrowed to a specific field,
-            and scenes group under their roll so a day reads the way the camera
-            report does.
+            Search scenes, or narrow the search to one field. Scenes are grouped by
+            roll, the way the camera report reads.
           </p>
         </div>
 
@@ -701,56 +550,197 @@
     </section>
   </div>
 
+  <!-- ── Gestures ─────────────────────────────────────────── -->
+  <div class="wrap">
+    <section id="gestures">
+      <h2>5. A few hidden gestures</h2>
+      <p class="sec-sub">
+        Some actions are gestures rather than buttons, to keep the log screen clear.
+      </p>
+
+      <div class="tips grid2">
+        <div class="tip">
+          <h3>Deleting takes</h3>
+          <p>
+            The trash button above the takes switches to delete mode: tap a take's
+            <strong>&times;</strong> and confirm. The pencil switches back to editing.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Or swipe a take left</h3>
+          <p>
+            Swipe a take to the left to delete it without switching modes.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Deleting a scene</h3>
+          <p>
+            Tap the <strong>&times;</strong> on a scene card and confirm.
+            <strong>Undo</strong> appears for a few seconds, and Recovery mode can
+            bring it back later.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Hold a scene to move it</h3>
+          <p>
+            Press and hold a scene card to lift it, or drag the grid icon in its
+            corner to move it right away.
+          </p>
+        </div>
+
+        <div class="tip tip-wide">
+          <h3>Swipe down to close a sheet</h3>
+          <p>
+            Swipe any panel that slides up back down, or tap outside it. On Android,
+            the back gesture works too.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── Recovery ─────────────────────────────────────────── -->
+  <div class="wrap">
+    <section id="recovery">
+      <h2>6. Nothing is really deleted: Recovery mode</h2>
+      <p class="sec-sub">
+        Deleting a production, camera or scene can always be undone.
+      </p>
+
+      <div class="tips">
+        <div class="tip">
+          <h3>Where it is</h3>
+          <p>
+            The archive icon on the <strong>Productions</strong>,
+            <strong>Cameras</strong> and <strong>Scene</strong> lists turns on
+            Recovery mode, which shows deleted items next to live ones, ready to
+            restore.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Nothing expires</h3>
+          <p>
+            Deleted items are never purged. A scene deleted on day one can be
+            restored on day forty, even offline.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Hide vs. Leave</h3>
+          <p>
+            <strong>Hide Production</strong> removes a show from <em>your</em> list
+            only, and can be undone. <strong>Leave Production</strong> gives up your
+            access; you'd need a new invite to get back in.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>A camera must be empty to delete it</h3>
+          <p>
+            Delete or move a camera's scenes first.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── Cache ────────────────────────────────────────────── -->
+  <div class="wrap">
+    <section id="cache">
+      <h2>7. About clearing your browser</h2>
+
+      <div class="callout">
+        <h3>Your synced work is safe. Only unsynced work is at risk.</h3>
+        <p>
+          Clearing browser data deletes what's stored on the phone. Everything that
+          reached the server comes back when you sign in again;
+          <strong>work that hadn't synced does not</strong>.
+        </p>
+        <div class="rules-wrap">
+          <table class="rules">
+            <thead>
+              <tr>
+                <th scope="col">If you&hellip;</th>
+                <th scope="col">iPhone or iPad, installed</th>
+                <th scope="col">Android installed, or any browser tab</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Clear your browsing history</th>
+                <td><span class="ok">Nothing happens.</span></td>
+                <td><span class="warn">Chrome's default also deletes site data.</span> Use &ldquo;More options&rdquo; to keep it.</td>
+              </tr>
+              <tr>
+                <th scope="row">Clear website data / cookies and site data</th>
+                <td><span class="ok">Nothing happens.</span> The installed app has its own storage.</td>
+                <td><span class="warn">Wipes it.</span> Signs you out and <span class="warn">deletes unsynced work for good</span>. Synced work comes back when you sign in.</td>
+              </tr>
+              <tr>
+                <th scope="row">Delete the app icon</th>
+                <td><span class="warn">Everything on the phone goes.</span></td>
+                <td><span class="warn">Everything on the phone goes.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Two habits:</p>
+        <ol>
+          <li><strong>Install CamLog to your home screen.</strong></li>
+          <li><strong>Check for <span class="chip chip-blue">Synced</span> before clearing anything or deleting the app.</strong> The pill is bottom-left on the productions and cameras lists.</li>
+        </ol>
+      </div>
+    </section>
+  </div>
+
   <!-- ── Team ─────────────────────────────────────────────── -->
   <div class="wrap">
     <section id="team">
-      <h2>7. Working with a crew</h2>
+      <h2>8. Working with a crew</h2>
       <p class="sec-sub">
-        Single-user projects are free and never expire. Live multi-user sync is the one
-        thing that costs anything, paid once per project: $8 for up to 5 people, or
-        $49 for any size crew.
+        Solo projects are free. Live crew sync is paid once per project: $8 for up to
+        5 people, or $49 for any size crew.
       </p>
 
       <div class="tips">
         <div class="tip">
           <h3>Invite by link or QR code</h3>
           <p>
-            The admin generates an invite from the team menu and shares it as a link
-            or holds up a QR code for people to scan. <strong>Nobody else pays</strong>. Your 2nd ACs, loader, and script supervisor join free, on their own
-            accounts. You can cap how many people a single invite lets in, and revoke
-            it at any time.
+            An admin shares an invite link or QR code from the team menu.
+            <strong>Nobody else pays</strong>: the crew joins free on their own
+            accounts. Invites can be capped and revoked.
           </p>
           <p>
-            On Pro, a project holds 5 people including you, and invites still open
-            on a link count toward that. When someone leaves or is removed, their
-            place frees up for a replacement.
+            On Pro, the 5 includes you and any open invites. When someone leaves,
+            their place frees up.
           </p>
         </div>
 
         <div class="tip">
           <h3>Editors and viewers</h3>
           <p>
-            Invite someone as an <strong>editor</strong> and they can log; invite them
-            as a <strong>viewer</strong> and they get a live read-only window on the
-             day, the right setting for a producer or a post supervisor who should see
-            the log but never change it. Roles can be changed later, and the admin can
-            be handed to someone else.
+            <strong>Editors</strong> log. <strong>Viewers</strong> follow the log live
+            and can circle takes, but can't edit, which suits producers and post.
+            Roles can be changed later.
           </p>
         </div>
 
         <div class="tip">
-          <h3>Edits appear live, and recent ones are marked</h3>
+          <h3>Edits appear live</h3>
           <p>
-            On a shared project, changes from other people show up as they happen. A
-            scene someone else touched recently is marked so you know at a glance that it moved.
+            Changes from the crew show up as they happen, and recently edited scenes
+            are marked.
           </p>
         </div>
 
         <div class="tip">
           <h3>Set your display name</h3>
           <p>
-            Do this when you join. Without it your crew sees an email address in the
-            team list instead of a name.
+            Do it when you join, or the crew sees your email instead.
           </p>
         </div>
       </div>
@@ -760,7 +750,7 @@
   <!-- ── Export ───────────────────────────────────────────── -->
   <div class="wrap">
     <section id="export">
-      <h2>8. Exporting your data</h2>
+      <h2>9. Exporting your data</h2>
       <p class="sec-sub">
         Different formats for different purposes.
       </p>
@@ -779,7 +769,8 @@
         <div class="tip">
           <h3>JSON backup</h3>
           <p>
-            A complete copy of the production that you can re-import later, hand to another crew member, or just keep on a drive.
+            A full copy of the production to re-import later, hand to someone else,
+            or keep on a drive.
           </p>
         </div>
 
