@@ -304,7 +304,7 @@
         <a href="#settings">Settings</a>
         <a href="#logging">Faster logging</a>
         <a href="#gestures">Gestures</a>
-        <a href="#recovery">Recovery mode</a>
+        <a href="#recovery">Deleting &amp; recovery</a>
         <a href="#cache">Clearing your browser</a>
         <a href="#team">Working with a crew</a>
         <a href="#export">Getting data out</a>
@@ -358,8 +358,17 @@
         <div class="tip">
           <h3>Sign in once while you have signal</h3>
           <p>
-            Signing in and the first load need a connection. After that, CamLog works
-            with no service. Do it at the hotel, not on location.
+            Creating an account and signing in need a connection. After that, CamLog
+            works with no service. Install and sign in at the hotel, not on location.
+            You stay signed in as long as CamLog connects at least once every 60 days.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Two devices per account</h3>
+          <p>
+            Signing in on a third signs out the one you've used least recently. On
+            iPhone, Safari and the installed app count separately.
           </p>
         </div>
 
@@ -397,7 +406,7 @@
           <ul>
             <li><span class="chip chip-blue">Synced</span>: everything on this phone is on the server.</li>
             <li><span class="chip chip-blue">Syncing</span>: changes are going up now.</li>
-            <li><span class="chip chip-grey">Offline</span>: no connection. Keep logging; it uploads on its own.</li>
+            <li><span class="chip chip-grey">Offline</span>: no connection. Keep logging; it uploads on reconnection.</li>
           </ul>
         </div>
 
@@ -553,36 +562,12 @@
   <!-- ── Gestures ─────────────────────────────────────────── -->
   <div class="wrap">
     <section id="gestures">
-      <h2>5. A few hidden gestures</h2>
+      <h2>5. Two hidden gestures</h2>
       <p class="sec-sub">
-        Some actions are gestures rather than buttons, to keep the log screen clear.
+        Two actions are gestures rather than buttons.
       </p>
 
       <div class="tips grid2">
-        <div class="tip">
-          <h3>Deleting takes</h3>
-          <p>
-            The trash button above the takes switches to delete mode: tap a take's
-            <strong>&times;</strong> and confirm. The pencil switches back to editing.
-          </p>
-        </div>
-
-        <div class="tip">
-          <h3>Or swipe a take left</h3>
-          <p>
-            Swipe a take to the left to delete it without switching modes.
-          </p>
-        </div>
-
-        <div class="tip">
-          <h3>Deleting a scene</h3>
-          <p>
-            Tap the <strong>&times;</strong> on a scene card and confirm.
-            <strong>Undo</strong> appears for a few seconds, and Recovery mode can
-            bring it back later.
-          </p>
-        </div>
-
         <div class="tip">
           <h3>Hold a scene to move it</h3>
           <p>
@@ -591,7 +576,7 @@
           </p>
         </div>
 
-        <div class="tip tip-wide">
+        <div class="tip">
           <h3>Swipe down to close a sheet</h3>
           <p>
             Swipe any panel that slides up back down, or tap outside it. On Android,
@@ -605,12 +590,30 @@
   <!-- ── Recovery ─────────────────────────────────────────── -->
   <div class="wrap">
     <section id="recovery">
-      <h2>6. Nothing is really deleted: Recovery mode</h2>
+      <h2>6. Deleting, and Recovery mode</h2>
       <p class="sec-sub">
         Deleting a production, camera or scene can always be undone.
       </p>
 
       <div class="tips">
+        <div class="tip">
+          <h3>Deleting takes</h3>
+          <p>
+            The trash button above the takes switches to delete mode: tap a take's
+            <strong>&times;</strong> and confirm. <strong>Undo</strong> appears for a
+            few seconds. The pencil switches back to editing.
+          </p>
+        </div>
+
+        <div class="tip">
+          <h3>Deleting a scene</h3>
+          <p>
+            Tap the <strong>&times;</strong> on a scene card and confirm.
+            <strong>Undo</strong> appears for a few seconds, and Recovery mode can
+            bring it back later.
+          </p>
+        </div>
+
         <div class="tip">
           <h3>Where it is</h3>
           <p>
@@ -641,7 +644,7 @@
         <div class="tip">
           <h3>A camera must be empty to delete it</h3>
           <p>
-            Delete or move a camera's scenes first.
+            Delete a camera's scenes first.
           </p>
         </div>
       </div>
@@ -723,9 +726,9 @@
         <div class="tip">
           <h3>Editors and viewers</h3>
           <p>
-            <strong>Editors</strong> log. <strong>Viewers</strong> follow the log live
-            and can circle takes, but can't edit, which suits producers and post.
-            Roles can be changed later.
+            <strong>Editors</strong> log camera notes. <strong>Viewers</strong> follow
+            the log live and can circle takes, but can't edit, which suits script
+            supervisors, VFX and post-production. Roles can be changed later.
           </p>
         </div>
 
@@ -791,7 +794,7 @@
     <section id="stuck" style="padding-bottom: 0;">
       <h2>Still stuck?</h2>
       <p class="sec-sub" style="margin-bottom: 8px;">
-        CamLog is built and answered by one working camera assistant. Email
+        CamLog is built and maintained by one working camera assistant. Email
         <a href="mailto:hello@camlog.app" style="color:var(--accent)">hello@camlog.app</a>
         with any questions or concerns and include the version number of your app from
         the bottom of the projects screen. It makes almost every problem faster to
